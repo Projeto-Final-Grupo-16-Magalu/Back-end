@@ -1,11 +1,11 @@
 from fastapi import FastAPI
 # from fastapi.middleware.cors import CORSMiddleware
-from eletrodomesticos.rest.principal_rest import rota_principal
-from eletrodomesticos.rest.eletrodomesticos_rest import rota_eletrodomesticos
+from games.rest.principal_rest import rota_principal
+from games.rest.games_rest import rota_games
 
 def configurar_rotas(app: FastAPI):
     app.include_router(rota_principal)
-    app.include_router(rota_eletrodomesticos)
+    app.include_router(rota_games)
 
 ############  Meninas, essa conf do Cors é para receber o front se houver tempo ##################
 def configurar_api_rest(app: FastAPI):

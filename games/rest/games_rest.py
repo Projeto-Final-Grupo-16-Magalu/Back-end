@@ -1,27 +1,27 @@
 from fastapi import APIRouter
 
-rota_eletrodomesticos = APIRouter(
-    prefix="/api/eletrodomesticos"
+rota_games = APIRouter(
+    prefix="/api/games"
 )
 
 
-@rota_eletrodomesticos.post("/")
+@rota_games.post("/")
 def criar_novo_produto(produto: dict):
     print("Salvar novo produto", produto)
     return{
     "codigo" : "texto"
     }
 
-@rota_eletrodomesticos.put("/{codigo_produto}")
+@rota_games.put("/{codigo_produto}")
 def atualizar_produto(codigo_produto: str, produto: dict):
     print("Atualizar produto", codigo_produto, "|", produto)
     return None
-@rota_eletrodomesticos.delete("/{codigo_produto}")
+@rota_games.delete("/{codigo_produto}")
 def remover_produto(codigo_produto: str):
     print("Remover produto", codigo_produto)
     return None
 
-@rota_eletrodomesticos.get("/{codigo_produto}")
+@rota_games.get("/{codigo_produto}")
 def pesquisar_produto(codigo_produto: str):
     print("Pesquisar produto pelo codigo", codigo_produto)
     return {
@@ -33,7 +33,7 @@ def pesquisar_produto(codigo_produto: str):
         
     }
     
-@rota_eletrodomesticos.get("/")
+@rota_games.get("/")
 def pesquisar_todos_produto():
     print("Pesquisar todos produtos")
     return [{
