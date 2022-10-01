@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-# from fastapi.middleware.cors import CORSMiddleware
+from fastapi.middleware.cors import CORSMiddleware
 from games.rest.principal_rest import rota_principal
 from games.rest.games_rest import rota_games
 
@@ -10,10 +10,9 @@ def configurar_rotas(app: FastAPI):
 ############  Meninas, essa conf do Cors é para receber o front se houver tempo ##################
 def configurar_api_rest(app: FastAPI):
     app.add_middleware(
-        # CORSMiddleware,
+        CORSMiddleware,
         allow_origins=["*"],
         allow_credentials=True,
-        allow_methods=["*"],
         allow_methods=["*"],
         allow_headers=["*"],
     )
