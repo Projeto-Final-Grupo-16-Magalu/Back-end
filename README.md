@@ -1,2 +1,2 @@
 # Back-end
-Projeto Final: Eletrodomésticos
+Projeto Final: Jogos eletrônicos  e videogame
