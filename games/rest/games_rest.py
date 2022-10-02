@@ -16,6 +16,7 @@ def criar_novo_produto(produto: dict):
 def atualizar_produto(codigo_produto: str, produto: dict):
     print("Atualizar produto", codigo_produto, "|", produto)
     return None
+    
 @rota_games.delete("/{codigo_produto}")
 def remover_produto(codigo_produto: str):
     print("Remover produto", codigo_produto)
