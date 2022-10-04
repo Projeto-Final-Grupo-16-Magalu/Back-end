@@ -7,7 +7,8 @@ e pesquisar os clientes no MongoDB.
 #****** checar nome de persistencia do banco de dados****
 from typing import List, Optional
 
-from bd_persistencia import obter_colecao
+from database.py import connect_db
+from database.py import disconnect_db
 
 class Clientes:
     # Nome do cliente
@@ -17,7 +18,7 @@ class Clientes:
    
 
 # Deixando o meu 'recurso de conversa' com coleção global.
-COLECAO_CLIENTES = obter_colecao("clientes")
+COLECAO_CLIENTES = connect_db("clientes")
 
 async def pesquisar_pelo_email(email_cliente: str) -> Optional[dict]:
     # Filtro para a pesquisa por e-mail
