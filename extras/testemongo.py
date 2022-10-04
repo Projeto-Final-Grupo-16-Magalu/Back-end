@@ -1,7 +1,7 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 
 async def testar():
-    url = "mongodb+srv://CarolineMelo:<C4r0l1n3>@luizacode.potbfvk.mongodb.net/gamesbd??retryWrites=true&w=majority"
+    url = "mongodb+srv://CarolineMelo:<***>@luizacode.potbfvk.mongodb.net/gamesbd??retryWrites=true&w=majority"
     cliente_mongo = AsyncIOMotorClient(url)
 
     bd = cliente_mongo.get_default_database()
