@@ -7,8 +7,8 @@ e pesquisar os clientes no MongoDB.
 #****** checar nome de persistencia do banco de dados****
 from typing import List, Optional
 
-from database.py import connect_db
-from database.py import disconnect_db
+from DataBase import connect_db
+from DataBase import disconnect_db
 
 class Clientes:
     # Nome do cliente
