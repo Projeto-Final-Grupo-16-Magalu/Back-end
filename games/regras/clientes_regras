@@ -43,7 +43,7 @@ async def inserir_novo_cliente(clientes: ModeloBaseClientes) -> ModeloGeralClien
     # 'Convertendo' cliente para ser salva no banco
     novo_cliente = clientes.dict()
     # Gerando novo código com uuidv4
-    novo_cliente[clientes_persistencia.CampoCliente.EMAIL] = str(uuid4())
+    novo_cliente[clientes_persistencia.Clientes.EMAIL] = str(uuid4())
 
     # Salvando no banco de dados
     await clientes_persistencia.inserir_um_novo_cliente(novo_cliente)
