@@ -1,0 +1,43 @@
+### Cria um carrinho de compras aberto
+POST http://127.0.0.1:8000/api/carrinho-compras
+
+{
+    "codigo_carinho": 1,
+    "cliente": "camila@gmail.com",
+    "quantidade_produtos": 0,
+    "valor_total": 0,
+    "aberto": true
+}
+
+### Atualiza quantidade de itens do carrinho
+PUT http://127.0.0.1:8000/api/carrinho-compras/2
+
+{
+    "codigo_carinho": 2,
+    "cliente": "camila@gmail.com",
+    "quantidade_produtos": 6,
+    "valor_total": 124.56,
+    "aberto": true
+}
+
+### Fecha um carrinho aberto
+PUT http://127.0.0.1:8000/api/carrinho-compras/fechar/2
+
+{
+    "codigo_carinho": 2,
+    "cliente": "camila@gmail.com",
+    "quantidade_produtos": 6,
+    "valor_total": 124.56,
+    "aberto": false
+}
+
+### Remove um carrinho (Opcional)
+DELETE http://127.0.0.1:8000/api/carrinho-compras/2
+
+### Consulta carrinho de compras aberto de um cliente
+GET http://127.0.0.1:8000/api/carrinho-compras/camila@gmail.com
+
+### Consulta os carrinhos de compra fechados de um cliente (Opcional)
+### Consulta os produtos e suas quantidades em carrinhos fechados (Opcional)
+### Consulta quantos carrinhos fechados os clientes possuem (Opcional)
+GET http://127.0.0.1:8000/api/carrinho-compras/fechados/camila@gmail.com
