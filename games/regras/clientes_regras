@@ -34,7 +34,7 @@ async def validar_novo_cliente(clientes: ModeloBaseClientes):
     # Validando se não há outro  cliente com este email
     outro_cliente = await clientes_persistencia.pesquisar_pelo_email(clientes.email)
     if outro_cliente is not None:
-        raise OutroRegistroExcecao("Há outro cliente com este email")
+        raise OutroRegistroExcecao("Há outro cliente cadastrado com este email")
 
 
 async def inserir_novo_cliente(clientes: ModeloBaseClientes) -> ModeloGeralClientes:
@@ -42,7 +42,8 @@ async def inserir_novo_cliente(clientes: ModeloBaseClientes) -> ModeloGeralClien
 
     # 'Convertendo' cliente para ser salva no banco
     novo_cliente = clientes.dict()
-    # Gerando novo código com uuidv4
+    
+    # Gerando novo código com uuidv4 ***importar basemodel correto de clientes**
     novo_cliente[clientes_persistencia.Clientes.EMAIL] = str(uuid4())
 
     # Salvando no banco de dados
