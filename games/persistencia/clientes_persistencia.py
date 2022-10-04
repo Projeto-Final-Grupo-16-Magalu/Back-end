@@ -10,7 +10,7 @@ from typing import List, Optional
 from DataBase import connect_db
 from DataBase import disconnect_db
 
-class Clientes:
+class CampoCliente:
     # Nome do cliente
     NOME = "nome"
     # Campo email do cliente
@@ -24,7 +24,7 @@ COLECAO_CLIENTES = disconnect_db("clientes")
 async def pesquisar_pelo_email(email_cliente: str) -> Optional[dict]:
     # Filtro para a pesquisa por e-mail
     filtro = {
-        Clientes.EMAIL: email_cliente
+        CampoCliente.EMAIL: email_cliente
     }
     # Consultando no banco dados o primeiro cliente
     # que contenha o email informado.
@@ -49,15 +49,13 @@ async def pesquisar_todos() -> List[dict]:
 async def pesquisar_pelo_nome(nome: str) -> Optional[dict]:
     # Filtro para a pesquisa
     filtro = {
-        Clientes.NOME: nome
+        CampoCliente.NOME: nome
     }
     # Consultando no banco dados o primeiro nome
     # que contenha o código informado.
     clientes = await COLECAO_CLIENTES.find_one(filtro)
 
     return clientes
-
-#********************REVISAR****************************
 
 async def inserir_um_novo_cliente(novo_cliente: dict) -> dict:
     # Não validaremos aqui. Mais detalhes veja a 
