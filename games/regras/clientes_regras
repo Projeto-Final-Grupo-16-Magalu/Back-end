@@ -5,9 +5,11 @@ Regras e ajustes para clientes.
 from typing import List, Optional
 from uuid import uuid4
 
-import clientes.persistencia.clientes_persistencia as clientes_persistencia
-from clientes.modelos import ModeloBaseClientes, ModeloGeralClientes #como importar esses modelos
-from clientes.regras.regras_excecoes import (NaoEncontradoExcecao,
+import games.persistencia.clientes_persistencia as clientes_persistencia
+
+# from clientes.modelos import ModeloBaseClientes, ModeloGeralClientes  ***( fazer correção: #aguardar criação modelos)
+
+from games.regras.regras_excecoes import (NaoEncontradoExcecao,
                                             OutroRegistroExcecao)
 
 
@@ -24,9 +26,10 @@ async def pesquisar_por_todos() -> List[dict]:
     todos = await clientes_persistencia.pesquisar_todos()
     return todos
 
-#******checar nome modelo Cliente
+#******checar nome modelo Cliente corrigir
 
-async def validar_novo_cliente(clientes: ModeloBaseClientes):
+# async def validar_novo_cliente(clientes: ModeloBaseClientes):  ***( fazer correção: #aguardar criação modelos)
+    
     # Seria bom validarmos aqui se há nome e email.
     # Mas como a camada _rest já fez isto para nós, vamos 'confiar'
     # nela.
@@ -37,19 +40,20 @@ async def validar_novo_cliente(clientes: ModeloBaseClientes):
         raise OutroRegistroExcecao("Há outro cliente cadastrado com este email")
 
 
-async def inserir_novo_cliente(clientes: ModeloBaseClientes) -> ModeloGeralClientes:
-    await validar_novo_cliente(clientes)
+# async def inserir_novo_cliente(clientes: ModeloBaseClientes) -> ModeloGeralClientes:
+#     await validar_novo_cliente(clientes)  ***  ( fazer correção: #aguardar criação modelos)
+
 
     # 'Convertendo' cliente para ser salva no banco
     novo_cliente = clientes.dict()
     
-    # Gerando novo código com uuidv4 ***importar basemodel correto de clientes**
+    # Gerando novo código com uuidv4  ***  ( fazer correção: #aguardar criação modelos para importar a classe certa de Clientes.EMAIL)
     novo_cliente[clientes_persistencia.Clientes.EMAIL] = str(uuid4())
 
     # Salvando no banco de dados
     await clientes_persistencia.inserir_um_novo_cliente(novo_cliente)
 
-    # Retornando o registro do cliente completo
+    # Retornando o registro do cliente completo ***  ( fazer correção: #aguardar criação modelos /ModeloGeral)
     cliente_geral = ModeloGeralClientes(**novo_cliente)
 
     return cliente_geral
