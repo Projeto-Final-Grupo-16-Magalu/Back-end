@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+
 from games.rest.principal_rest import rota_principal
 from games.rest.games_rest import rota_games
 
@@ -16,10 +17,6 @@ def configurar_api_rest(app: FastAPI):
         allow_methods=["*"],
         allow_headers=["*"],
     )
-
-
-
-
 
 def criar_aplicacao_fastapi():
     app = FastAPI()
