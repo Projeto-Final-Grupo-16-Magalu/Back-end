@@ -10,7 +10,7 @@ COLECAO_ENDERECOS = disconnect_db("enderecos")
 
 async def pesquisar_pelo_id(id_cliente: str) -> Optional[dict]:
     filtro = {
-        Endereco.id_cliente : id_cliente
+        Endereco.
     }
     enderecos = await COLECAO_ENDERECOS.find_one(filtro)
     return enderecos
