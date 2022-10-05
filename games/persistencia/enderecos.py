@@ -1,18 +1,21 @@
 
 
 from typing import List, Optional
+
+from pydantic import EmailStr
+from games.modelos.cliente import Cliente
 from games.servidor.database import (connect_db,disconnect_db)
-from games.modelos.endereco import Endereco
+from games.modelos.endereco import Endereco, EnderecosCliente
 
 
 COLECAO_ENDERECOS = connect_db("enderecos")
 COLECAO_ENDERECOS = disconnect_db("enderecos")
 
-async def pesquisar_pelo_id(id_cliente: str) -> Optional[dict]:
+async def pesquisar_pelo_email(email: EmailStr) -> Optional[dict]:
     filtro = {
-        Endereco.
+        Cliente.email: email
     }
-    enderecos = await COLECAO_ENDERECOS.find_one(filtro)
+    enderecos = await COLECAO_ENDERECOS.find(filtro)
     return enderecos
 
 async def pesquisar_todos() -> List[dict]:
