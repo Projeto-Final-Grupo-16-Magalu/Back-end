@@ -23,7 +23,7 @@ async def pesquisar_todos() -> List[dict]:
     filtro = {}
     cursor_pesquisa = COLECAO_ENDERECOS.find(filtro)
     lista_todos = [
-        enderecos
+       db.colecao_enderecos
         async for enderecos in cursor_pesquisa
     ]
     return lista_todos
