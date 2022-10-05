@@ -1,9 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from games.rest.principal_rest import rota_principal
-from games.rest.games_rest import rota_games
-from games.rest.carrinho_rest import rota_carrinho
+from games.rest.principal import rota_principal
+from games.rest.games import rota_games
+from games.rest.carrinho import rota_carrinho
 
 def configurar_rotas(app: FastAPI):
     app.include_router(rota_principal)
