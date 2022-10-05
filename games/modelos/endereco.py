@@ -4,7 +4,6 @@ from typing import List
 from .cliente import Cliente
 
 class Endereco(BaseModel):
-    id_cliente: int = Field(unique=True, max_digits=3)
     nome: str = Field(max_length=10)
     logradouro: str= Field(max_length=100)
     cep: str= Field(max_length=9)
