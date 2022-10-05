@@ -8,7 +8,7 @@ class Produto(BaseModel):
     descricao: str = Field(max_length=100)
     plataforma: str = Field(max_length=20)
     preco: Decimal = Field(max_digits=10, decimal_places=3)
-    qantidade_em_estoque: PositiveInt
+    qantidade_em_estoque: int = Field(PositiveInt)
     codigo: int = Field(unique=True)
 
 
