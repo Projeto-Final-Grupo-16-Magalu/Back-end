@@ -1,11 +1,11 @@
-    
+
 
 from typing import List, Optional
 from games.modelos.cliente import Cliente
 from games.servidor.database import (DataBase, connect_db )
 from pydantic.networks import EmailStr
    
-COLECAO_CLIENTES = connect_db("clientes")
+COLECAO_CLIENTES = connect_db()
 db = DataBase()
 
 async def pesquisar_pelo_email(email: EmailStr) -> Optional[dict]:
