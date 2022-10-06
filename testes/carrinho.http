@@ -41,3 +41,5 @@ GET http://127.0.0.1:8000/api/carrinho-compras/camila@gmail.com
 ### Consulta os produtos e suas quantidades em carrinhos fechados (Opcional)
 ### Consulta quantos carrinhos fechados os clientes possuem (Opcional)
 GET http://127.0.0.1:8000/api/carrinho-compras/fechados/camila@gmail.com
+
+
