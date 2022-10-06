@@ -5,7 +5,8 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 class DataBase:
     client: AsyncIOMotorClient = None
-    database_uri = environ.get('DATABASE_URI')
+    #database_uri = environ.get('BD_URL')
+    database_uri = "mongodb+srv://games:games@cluster0.udqxomv.mongodb.net"
     colecao_clientes = None
     colecao_enderecos = None
     colecao_produtos = None
@@ -22,13 +23,10 @@ async def connect_db():
         tls=True,
         tlsAllowInvalidCertificates=True
     )
-# async def acessar_colecao (db.client):
-#     ...
-    
-    db.colecao_clientes = db.client.magalugames.clientes
-    db.colecao_enderecos = db.client.magalugames.enderecos
-    db.colecao_produtos = db.client.magalugames.produtos
-    db.colecao_carrinhos = db.client.magalugames.carrinhos
+    db.colecao_clientes = db.client.games.clientes
+    db.colecao_enderecos = db.client.games.enderecos
+    db.colecao_produtos = db.client.games.produtos
+    db.colecao_carrinhos = db.client.games.carrinhos
 
 async def disconnect_db():
     db.client.close()
