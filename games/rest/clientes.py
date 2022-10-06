@@ -1,6 +1,6 @@
 from typing import List
 
-import games.regras.clientes_regras as clientes_regras
+import games.regras.clientes as clientes_regras
 from fastapi import APIRouter, status
 from games.modelos.cliente import (Cliente) 
                              
