@@ -2,17 +2,18 @@
 
 from typing import List, Optional
 from games.modelos.cliente import Cliente
-from games.servidor.database import (DataBase, connect_db )
+from games.servidor.database import (DataBase, connect_db)
 from pydantic.networks import EmailStr
    
-COLECAO_CLIENTES = connect_db()
+   
+COLECAO_CLIENTES = connect_db( )
 db = DataBase()
 
 async def pesquisar_pelo_email(email: EmailStr) -> Optional[dict]:
     filtro = {
         "email":email
     }
-    email = await db.colecao_clientes(filtro)
+    clientes = await COLECAO_CLIENTES.find_one(filtro)
     return db.colecao_clientes
 
 async def pesquisar_todos() -> List[dict]:
