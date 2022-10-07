@@ -19,13 +19,6 @@ async def pesquisar_por_email(
         raise NaoEncontradoExcecao("Cliente não encontrada")
    return clientes
 
-async def pesquisar_por_id(
-   id_cliente: int, lanca_excecao_se_nao_encotrado: bool = False
-) -> Optional[dict]:
-   clientes = await clientes_persistencia.pesquisar_pelo_id(id_cliente)
-   if not clientes and lanca_excecao_se_nao_encotrado:
-        raise NaoEncontradoExcecao("Cliente não encontrada")
-   return clientes
 
 async def pesquisar_por_todos() -> List[dict]:
     todos = await clientes_persistencia.pesquisar_todos()

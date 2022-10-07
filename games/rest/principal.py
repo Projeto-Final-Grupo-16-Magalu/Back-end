@@ -1,5 +1,6 @@
 from fastapi import APIRouter
 
+
 rota_principal = APIRouter(
     prefix=""
 )

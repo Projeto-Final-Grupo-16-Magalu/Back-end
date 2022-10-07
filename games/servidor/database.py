@@ -22,8 +22,8 @@ async def connect_db():
         tls=True,
         tlsAllowInvalidCertificates=True
     )
-async def acessar_colecao (db.client):
-    ...
+# async def acessar_colecao (db.client):
+#     ...
     
     db.colecao_clientes = db.client.magalugames.clientes
     db.colecao_enderecos = db.client.magalugames.enderecos
