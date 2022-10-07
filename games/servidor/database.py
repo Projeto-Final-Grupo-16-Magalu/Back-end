@@ -7,10 +7,12 @@ class DataBase:
     client: AsyncIOMotorClient = None
     #database_uri = environ.get('BD_URL')
     database_uri = "mongodb+srv://games:games@cluster0.udqxomv.mongodb.net"
-    colecao_clientes = None
+    colecao_usuarios = None
     colecao_enderecos = None
     colecao_produtos = None
-    colecao_carrinhos = None
+    colecao_pedidos = None
+    colecao_itens_do_pedido = None
+
 
 db = DataBase()
 
@@ -23,10 +25,11 @@ async def connect_db():
         tls=True,
         tlsAllowInvalidCertificates=True
     )
-    db.colecao_clientes = db.client.games.clientes
+    db.colecao_usuarios = db.client.games.usuarios
     db.colecao_enderecos = db.client.games.enderecos
     db.colecao_produtos = db.client.games.produtos
-    db.colecao_carrinhos = db.client.games.carrinhos
+    db.colecao_pedidos = db.client.games.pedidos
+    db.colecao_itens_do_pedido = db.client.games.itens_do_pedido
 
 async def disconnect_db():
     db.client.close()

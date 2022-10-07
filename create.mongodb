@@ -1,324 +1,254 @@
-// Create a new collection.
+// Criando as coleções.
 use('games');
-db.createCollection('colecao_clientes');
+db.createCollection('usuarios');
+use('games');
+db.createCollection('enderecos');
+use('games');
+db.createCollection('produtos');
+use('games');
+db.createCollection('pedidos');
+use('games');
+db.createCollection('itens_do_pedido');
 
+
+//Usuários 
 use('games');
-info_insert = db.colecao_clientes.insertOne(
+info_insert = db.usuarios.insertOne(
     {        
         "nome": "Caroline Melo",
         "email": "carol@gmail.com",
         "senha": "senha",
         "cliente_ativo":true,
         "administrador": false
-})
+    }   
+)
 info_insert;
 
 
-//buscar usuário
-use('shopping_cart');
-user_x = db.users.find({"_id": ObjectId("632f7454b117e231247773a9")}).pretty();
-user_x;
-
-// create address
-db.address.find().pretty();
-
-// valida a existência de endereço para usuário X
-use('shopping_cart');
-user_address = db.address.find({
-    'user._id': ObjectId("632f7a86d050703536c13688")
-});
-users_address;
-user_x;
-
 // inserir endereço quando não existe nenhum endereço para usuário X
-use('games_carrinho');
-info_insert_address = db.colecao_enderecos.insertOne(
+use('games');
+info_insert_endereco = db.enderecos.insertOne(
     {
-       "user": {
-        "_id": ObjectId("633df5aa5ce66ce3ddf0f059"),
+       "usuário": {
+        "_id": ObjectId("6340815fee87aaf9ecfe6023"),
             "nome": "Caroline Melo",
             "email": "carol@gmail.com",
             "senha": "senha",
             "cliente_ativo":true,
             "administrador": false
-              },
-       "address": [
+        },
+       "endereço": [
            {
-              
                 "logradouro": "Marquês São Vicente",
                 "cep": "0000000",
                 "bairro": "Perdizes",
                 "cidade": "São Paulo",
                 "estado": "São Paulo",
                 "entrega": true
-              
            }
-           ]
+        ]
     }
 );
-
-info_insert_address;
+info_insert_endereco;
 
 // inserir endereço quando existe endereço para usuário X
-use('shopping_cart');
-db.address.updateOne(
-    {"_id": ObjectId("632f7454b117e231247773a9")},
+use('games');
+info_insert_endereco = db.enderecos.updateOne(
+    {"_id": ObjectId("6340815fee87aaf9ecfe6023")},
     {
         $addToSet: {
-            address:   {
-              "street": "Rua Jesus, Número 2",
+            enderecos: {
+              "logradouro": "Rua Jesus, Número 2",
               "cep": "8465312",
-              "district": "São Paulo",
-              "city": "São Paulo",
-              "state": "São Paulo",
-              "is_delivery": true
+              "bairro": "Perdizes",
+              "cidade": "São Paulo",
+              "estado": "São Paulo",
+              "entrega": true
            }
         }
     }
 );
+info_insert_endereco;
 
-info_insert_address;
-use('shopping_cart')
-db.address.find({});
-db.address.find({
-    "_id": ObjectId ("632f7a86d050703536c13688")
-});
-
-// products
-db.products.find().pretty();
-
-use('games_carrinho');
-db.createCollection('colecao_produtos');
-use('games_carrinho');
-db.colecao_produto.insertMany([
+// Produto
+use('games');
+info_insert_produto = db.produtos.insertMany([
       {
-        "nome":"Game",
-        "descricao": "Muito bom",
+        "nome":"Controle para PS4 e PC sem Fio Dualshock 4 Sony - Verde Camuflado",
+        "descricao": "O Controle sem fio Dualshock 4 Verde Camuflado da Sony é criado para o sistema PS4 e PC e sua geração de jogos, combinando recursos revolucionários e conforto com controles precisos e intuitivos.",
         "plataforma": "online",
-        "preco": 100,
-        "qantidade_em_estoque": 1,
+        "preco": 319.90,
+        "qantidade_em_estoque": 5,
         "codigo":1,
-        "imagem":"https://images.pexels.com/photos/459762/pexels-photo-459762.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
-
+        "imagem":"https://a-static.mlcdn.com.br/800x560/controle-para-ps4-e-pc-sem-fio-dualshock-4-sony-verde-camuflado/magazineluiza/043183600/b5187a9195257c749ab25eb8ca4f6da8.jpg"
     },
-   
+]);
+info_insert_produto;
+
+// Pedido
+use('games')
+info_insert_pedido = db.pedidos.insertOne({
+    usuario:  {
+      "_id": "6340815fee87aaf9ecfe6023",
+        "nome": "Caroline Melo",
+        "email": "carol@gmail.com",
+        "senha": "senha",
+        "cliente_ativo":true,
+        "administrador": false
+    },
+    preco: 1500.4,
+    pago: false,
+    endereco: {
+       "logradouro": "Marquês São Vicente",
+        "cep": "0000000",
+        "bairro": "Perdizes",
+        "cidade": "São Paulo",
+        "estado": "São Paulo",
+        "entrega": true
+    }  
+});
+info_insert_pedido;
+
+
+
+// CARRINHO - ITENS DO PEDIDO
+use('games')
+info_insert_itens_do_pedido = db.itens_do_pedido.insertMany([
+    {
+        pedido: {
+            "_id": "63408e9fec892487cafdbedd",
+             usuario:  {
+                "_id": "6340815fee87aaf9ecfe6023",
+                "nome": "Caroline Melo",
+                "email": "carol@gmail.com",
+                "senha": "senha",
+                "cliente_ativo":true,
+                "administrador": false
+            },
+            preco: 1500.4,
+            pago: false,
+            endereco: {
+                "logradouro": "Marquês São Vicente",
+                "cep": "0000000",
+                "bairro": "Perdizes",
+                "cidade": "São Paulo",
+                "estado": "São Paulo",
+                "entrega": true
+            }  
+        },
+        produto: {
+        "_id":"633e35e91461d1ea8adb4f26",
+        "nome":"Controle para PS4 e PC sem Fio Dualshock 4 Sony - Verde Camuflado",
+        "descricao": "O Controle sem fio Dualshock 4 Verde Camuflado da Sony é criado para o sistema PS4 e PC e sua geração de jogos, combinando recursos revolucionários e conforto com controles precisos e intuitivos.",
+        "plataforma": "online",
+        "preco": 319.90,
+        "qantidade_em_estoque": 5,
+        "codigo":1,
+        "imagem":"https://a-static.mlcdn.com.br/800x560/controle-para-ps4-e-pc-sem-fio-dualshock-4-sony-verde-camuflado/magazineluiza/043183600/b5187a9195257c749ab25eb8ca4f6da8.jpg"
+        }
+    },
+    {
+        pedido: {
+          "_id": "6340959159226cb3b0a574ee",
+           usuario:  {
+                "_id": "6340815fee87aaf9ecfe6023",
+                "nome": "Caroline Melo",
+                "email": "carol@gmail.com",
+                "senha": "senha",
+                "cliente_ativo":true,
+                "administrador": false
+            },
+            preco: 100,
+            pago: false,
+            endereco: {
+                "logradouro": "Marquês São Vicente",
+                "cep": "0000000",
+                "bairro": "Perdizes",
+                "cidade": "São Paulo",
+                "estado": "São Paulo",
+                "entrega": true
+            }  
+        },
+        produto: {
+            "_id":"633e35e91461d1ea8adb4f26",    
+            "nome":"Controle para PS4 e PC sem Fio Dualshock 4 Sony - Verde Camuflado",
+            "descricao": "O Controle sem fio Dualshock 4 Verde Camuflado da Sony é criado para o sistema PS4 e PC e sua geração de jogos, combinando recursos revolucionários e conforto com controles precisos e intuitivos.",
+            "plataforma": "online",
+            "preco": 319.90,
+            "qantidade_em_estoque": 5,
+            "codigo":1,
+            "imagem":"https://a-static.mlcdn.com.br/800x560/controle-para-ps4-e-pc-sem-fio-dualshock-4-sony-verde-camuflado/magazineluiza/043183600/b5187a9195257c749ab25eb8ca4f6da8.jpg"
+        }
+    }
 ]);
 
 
-// order
+
+
+
+
+
+
+
+
+
+
+
+
+//buscar usuário
+use('games');
+usuario_x = db.usuarios.find({"_id": ObjectId("6340815fee87aaf9ecfe6023")}).pretty();
+usuario_x;
+
+// valida a existência de endereço para usuário X
+use('games');
+usuario_enderecos = db.endereco.find({
+    'usuario._id': ObjectId("6340815fee87aaf9ecfe6023")
+});
+usuario_enderecos;
+usuario_x;
 
 // Busca o endereco do usuário X que está com o is_delivery = true
-use('shopping_cart')
-object_id_aggregate = db.address.aggregate([
+use('games')
+object_id_aggregate = db.enderecos.aggregate([
     {
         $match:{
-            "user.email": "luis@gmail.com",
-            "user.is_active": true
+            "usuario.email": "carol@gmail.com",
+            "usuario.cliente_ativo": true
        }
     },
     {
-       $unwind: '$address'
+       $unwind: '$endereco'
     },
     {
        $match: {
-    		'address.is_delivery':true
+    		'endereco.entrega':true
         }
     }
 ]);
-use('shopping_cart')
-db.orders.insertOne({
-    user:  {
-      "_id": "632f7424beabdcad0f9403a3",
-      "email": "luis@gmail.com",
-      "password": "12345678",
-      "is_active": true,
-      "is_admin": false
-    },
-    price: 1796.4,
-    paid: false,
-    address: {
-      "street": "Rua Quarenta e Sete, Numero 3",
-      "cep": "8465312",
-      "district": "São Paulo",
-      "city": "São Paulo",
-      "state": "São Paulo",
-      "is_delivery": true
-    }  
-});
-info_order_insert;
 
-// oder_item
-db.order.find({
+
+// endereços
+db.enderecos.find({});
+db.enderecos.updateMany({}, {$rename: {"users": "user"}});
+db.enderecos.find().pretty();
+db.enderecos.find({
+    "_id": ObjectId ("632f7a86d050703536c13688")
+});
+
+// produtos
+db.produtos.find().pretty();
+db.produtos.find({});
+
+
+// pedidos
+db.pedidos.find({
     "_id": ObjectId("")
 });
 
-
-db.products.find({});
-
-use('shopping_cart')
-db.order_items.insertMany([
-    {
-        order: {
-            "_id": "632f9034f9688c53463bf185",
-            "user": {
-                "_id": "632f7424beabdcad0f9403a3",
-                "email": "luis@gmail.com",
-                "password": "12345678",
-                "is_active": true,
-                "is_admin": false
-            },
-            "price" : 1796.4,
-            "paid" : false,
-            "address" : {
-                "street" : "Rua Quarenta e Sete, Numero 3",
-                "cep" : "8465312",
-                "district" : "São Paulo",
-                "city" : "São Paulo",
-                "state" : "São Paulo",
-                "is_delivery" : true
-            }
-        },
-        product: {
-          "_id": "632f83e4554ca0eb2d8e7180",
-          "name": "Aparelho de Jantar Chá 20 Peças Biona Cerâmica - Redondo Donna",
-          "description": "O aparelho de jantar Donna da Biona Cerâmica vai trazer à sua mesa mais beleza e praticidade na hora das refeições.",
-          "price": 159.9,
-          "image": "https://a-static.mlcdn.com.br/800x560/aparelho-de-jantar-cha-20-pecas-biona-ceramica-redondo-donna/magazineluiza/143282000/3b97f0ee717295e433290a7700ed1d0a.jpg",
-          "code": 97881
-        }
-    },
-    {
-        order: {
-          "_id": "632f9034f9688c53463bf185",
-          "user" : {
-            "_id" : "632f7424beabdcad0f9403a3",
-            "email" : "luis@gmail.com",
-            "password" : "12345678",
-            "is_active" : true,
-            "is_admin" : false
-            },
-            "price" : 1796.4,
-            "paid" : false,
-            "address" : {
-                "street" : "Rua Quarenta e Sete, Numero 3",
-                "cep" : "8465312",
-                "district" : "São Paulo",
-                "city" : "São Paulo",
-                "state" : "São Paulo",
-                "is_delivery" : true
-            }
-        },
-        product: {
-          "_id": "632f83e4554ca0eb2d8e7181",
-          "name": "Tênis Feminino Ramarim Chunky Energize Alto 21-80204 Preto",
-          "description": "Tendência em calçados confortáveis, o modelo 80204 da Ramarim continua como hit nos looks das influencers e famosas. ",
-          "price": 199.9,
-          "image": "https://a-static.mlcdn.com.br/800x560/tenis-feminino-ramarim-chunky-energize-alto-21-80204-preto/lojamultisapatos/15813825522/ac9be01b0e151be9aec6ce1d08189830.jpeg",
-          "code": 222479
-          }
-    }
-]);
-use('shopping_cart')
-db.order_items.find({});
-
-
-
-db.order_items.find({});
+// itens do carrinho
+db.itens_do_pedido.find({});
+db.itens_do_pedido.find({});
+​db.itens_do_pedido.find({}).skip(0).limit(2).sort({});
+db.itens_do_pedido.find({}).skip(0).limit(2).cout();
 ​
-db.order_items.find({}).skip(0).limit(2).sort({});
-
-db.order_items.find({}).skip(0).limit(2).cout();
-​
-db.address.find({});
-db.address.updateMany({}, {$rename: {"users": "user"}});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// db.order_items.insertMany([
-//     {
-//         order:
-//          {
-//             "_id": "632f9034f9688c53463bf185",
-//             "user": {
-//                 "_id": "632f7424beabdcad0f9403a3",
-//                 "email": "luis@gmail.com",
-//                 "password": "12345678",
-//                 "is_active": true,
-//                 "is_admin": false
-//                     },
-//             "price": 1796.4,
-//             "paid": false,
-//             "address": {
-//             "street": "Rua Quarenta e Sete, Numero 3",
-//             "cep": "8465312",
-//             "district": "São Paulo",
-//             "city": "São Paulo",
-//             "state": "São Paulo",
-//             "is_delivery": true
-//              }
-//           },
-//         product: {
-//           "_id": "632f83e4554ca0eb2d8e7180"
-//           "name": "Aparelho de Jantar Chá 20 Peças Biona Cerâmica - Redondo Donna",
-//           "description": "O aparelho de jantar Donna da Biona Cerâmica vai trazer à sua mesa mais beleza e praticidade na hora das refeições.",
-//           "price": 159.9,
-//           "image": "https://a-static.mlcdn.com.br/800x560/aparelho-de-jantar-cha-20-pecas-biona-ceramica-redondo-donna/magazineluiza/143282000/3b97f0ee717295e433290a7700ed1d0a.jpg",
-//           "code": 97881
-//           },
-          
-
-//       {
-//         order: 
-//         {
-//           "_id": "632f9034f9688c53463bf185",
-//           "user": {
-//             "_id": "632f7424beabdcad0f9403a3",
-//             "email": "luis@gmail.com",
-//             "password": "12345678",
-//             "is_active": true,
-//             "is_admin": false
-//           },
-//           "price": 1796.4,
-//           "paid": false,
-//           "address": {
-//             "street": "Rua Quarenta e Sete, Numero 3",
-//             "cep": "8465312",
-//             "district": "São Paulo",
-//             "city": "São Paulo",
-//             "state": "São Paulo",
-//             "is_delivery": true
-//           },
-//           product:  {
-//           "_id": "632f83e4554ca0eb2d8e7181"
-//           "name": "Tênis Feminino Ramarim Chunky Energize Alto 21-80204 Preto",
-//           "description": "Tendência em calçados confortáveis, o modelo 80204 da Ramarim continua como hit nos looks das influencers e famosas. ",
-//           "price": 199.9,
-//           "image": "https://a-static.mlcdn.com.br/800x560/tenis-feminino-ramarim-chunky-energize-alto-21-80204-preto/lojamultisapatos/15813825522/ac9be01b0e151be9aec6ce1d08189830.jpeg",
-//           "code": 222479
-//           },
-//         }
-//      }
-//     }
-// ]);
-// use('shopping_cart')
-// db.products.find({});
