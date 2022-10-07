@@ -1,0 +1,12 @@
+#Cria novo cliente
+
+POST http://127.0.0.1:8000/api/clientes
+
+{
+    "nome": "Nayara",
+    "email": "naaya@gmail.com",
+    "senha": 12345678,
+    "cliente_ativo" : true,
+    "administrador" : false
+
+}

@@ -10,9 +10,9 @@ db = DataBase()
 
 async def pesquisar_pelo_email(email: EmailStr) -> Optional[dict]:
     filtro = {
-        Cliente.email: email
+        "email":email
     }
-    clientes = await COLECAO_CLIENTES.find_one(filtro)
+    email = await db.colecao_clientes(filtro)
     return db.colecao_clientes
 
 async def pesquisar_todos() -> List[dict]:

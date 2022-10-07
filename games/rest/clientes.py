@@ -31,7 +31,7 @@ async def criar_novo_cliente(clientes:Cliente):
     response_model = Cliente
 )
 async def pesquisar_cliente_pelo_email(email: str):
-    cliente = await clientes_regras.pesquisar_poxr_email(email, True)
+    cliente = await clientes_regras.pesquisar_por_email(email, True)
     return cliente
 
 
