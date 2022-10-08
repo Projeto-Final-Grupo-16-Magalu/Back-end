@@ -1,0 +1,254 @@
+// Criando as coleções.
+use('games');
+db.createCollection('usuarios');
+use('games');
+db.createCollection('enderecos');
+use('games');
+db.createCollection('produtos');
+use('games');
+db.createCollection('pedidos');
+use('games');
+db.createCollection('itens_do_pedido');
+
+
+//Usuários 
+use('games');
+info_insert = db.usuarios.insertOne(
+    {        
+        "nome": "Caroline Melo",
+        "email": "carol@gmail.com",
+        "senha": "senha",
+        "cliente_ativo":true,
+        "administrador": false
+    }   
+)
+info_insert;
+
+
+// inserir endereço quando não existe nenhum endereço para usuário X
+use('games');
+info_insert_endereco = db.enderecos.insertOne(
+    {
+       "usuário": {
+        "_id": ObjectId("6340815fee87aaf9ecfe6023"),
+            "nome": "Caroline Melo",
+            "email": "carol@gmail.com",
+            "senha": "senha",
+            "cliente_ativo":true,
+            "administrador": false
+        },
+       "endereço": [
+           {
+                "logradouro": "Marquês São Vicente",
+                "cep": "0000000",
+                "bairro": "Perdizes",
+                "cidade": "São Paulo",
+                "estado": "São Paulo",
+                "entrega": true
+           }
+        ]
+    }
+);
+info_insert_endereco;
+
+// inserir endereço quando existe endereço para usuário X
+use('games');
+info_insert_endereco = db.enderecos.updateOne(
+    {"_id": ObjectId("6340815fee87aaf9ecfe6023")},
+    {
+        $addToSet: {
+            enderecos: {
+              "logradouro": "Rua Jesus, Número 2",
+              "cep": "8465312",
+              "bairro": "Perdizes",
+              "cidade": "São Paulo",
+              "estado": "São Paulo",
+              "entrega": true
+           }
+        }
+    }
+);
+info_insert_endereco;
+
+// Produto
+use('games');
+info_insert_produto = db.produtos.insertMany([
+      {
+        "nome":"Controle para PS4 e PC sem Fio Dualshock 4 Sony - Verde Camuflado",
+        "descricao": "O Controle sem fio Dualshock 4 Verde Camuflado da Sony é criado para o sistema PS4 e PC e sua geração de jogos, combinando recursos revolucionários e conforto com controles precisos e intuitivos.",
+        "plataforma": "online",
+        "preco": 319.90,
+        "qantidade_em_estoque": 5,
+        "codigo":1,
+        "imagem":"https://a-static.mlcdn.com.br/800x560/controle-para-ps4-e-pc-sem-fio-dualshock-4-sony-verde-camuflado/magazineluiza/043183600/b5187a9195257c749ab25eb8ca4f6da8.jpg"
+    },
+]);
+info_insert_produto;
+
+// Pedido
+use('games')
+info_insert_pedido = db.pedidos.insertOne({
+    usuario:  {
+      "_id": "6340815fee87aaf9ecfe6023",
+        "nome": "Caroline Melo",
+        "email": "carol@gmail.com",
+        "senha": "senha",
+        "cliente_ativo":true,
+        "administrador": false
+    },
+    preco: 1500.4,
+    pago: false,
+    endereco: {
+       "logradouro": "Marquês São Vicente",
+        "cep": "0000000",
+        "bairro": "Perdizes",
+        "cidade": "São Paulo",
+        "estado": "São Paulo",
+        "entrega": true
+    }  
+});
+info_insert_pedido;
+
+
+
+// CARRINHO - ITENS DO PEDIDO
+use('games')
+info_insert_itens_do_pedido = db.itens_do_pedido.insertMany([
+    {
+        pedido: {
+            "_id": "63408e9fec892487cafdbedd",
+             usuario:  {
+                "_id": "6340815fee87aaf9ecfe6023",
+                "nome": "Caroline Melo",
+                "email": "carol@gmail.com",
+                "senha": "senha",
+                "cliente_ativo":true,
+                "administrador": false
+            },
+            preco: 1500.4,
+            pago: false,
+            endereco: {
+                "logradouro": "Marquês São Vicente",
+                "cep": "0000000",
+                "bairro": "Perdizes",
+                "cidade": "São Paulo",
+                "estado": "São Paulo",
+                "entrega": true
+            }  
+        },
+        produto: {
+        "_id":"633e35e91461d1ea8adb4f26",
+        "nome":"Controle para PS4 e PC sem Fio Dualshock 4 Sony - Verde Camuflado",
+        "descricao": "O Controle sem fio Dualshock 4 Verde Camuflado da Sony é criado para o sistema PS4 e PC e sua geração de jogos, combinando recursos revolucionários e conforto com controles precisos e intuitivos.",
+        "plataforma": "online",
+        "preco": 319.90,
+        "qantidade_em_estoque": 5,
+        "codigo":1,
+        "imagem":"https://a-static.mlcdn.com.br/800x560/controle-para-ps4-e-pc-sem-fio-dualshock-4-sony-verde-camuflado/magazineluiza/043183600/b5187a9195257c749ab25eb8ca4f6da8.jpg"
+        }
+    },
+    {
+        pedido: {
+          "_id": "6340959159226cb3b0a574ee",
+           usuario:  {
+                "_id": "6340815fee87aaf9ecfe6023",
+                "nome": "Caroline Melo",
+                "email": "carol@gmail.com",
+                "senha": "senha",
+                "cliente_ativo":true,
+                "administrador": false
+            },
+            preco: 100,
+            pago: false,
+            endereco: {
+                "logradouro": "Marquês São Vicente",
+                "cep": "0000000",
+                "bairro": "Perdizes",
+                "cidade": "São Paulo",
+                "estado": "São Paulo",
+                "entrega": true
+            }  
+        },
+        produto: {
+            "_id":"633e35e91461d1ea8adb4f26",    
+            "nome":"Controle para PS4 e PC sem Fio Dualshock 4 Sony - Verde Camuflado",
+            "descricao": "O Controle sem fio Dualshock 4 Verde Camuflado da Sony é criado para o sistema PS4 e PC e sua geração de jogos, combinando recursos revolucionários e conforto com controles precisos e intuitivos.",
+            "plataforma": "online",
+            "preco": 319.90,
+            "qantidade_em_estoque": 5,
+            "codigo":1,
+            "imagem":"https://a-static.mlcdn.com.br/800x560/controle-para-ps4-e-pc-sem-fio-dualshock-4-sony-verde-camuflado/magazineluiza/043183600/b5187a9195257c749ab25eb8ca4f6da8.jpg"
+        }
+    }
+]);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//buscar usuário
+use('games');
+usuario_x = db.usuarios.find({"_id": ObjectId("6340815fee87aaf9ecfe6023")}).pretty();
+usuario_x;
+
+// valida a existência de endereço para usuário X
+use('games');
+usuario_enderecos = db.endereco.find({
+    'usuario._id': ObjectId("6340815fee87aaf9ecfe6023")
+});
+usuario_enderecos;
+usuario_x;
+
+// Busca o endereco do usuário X que está com o is_delivery = true
+use('games')
+object_id_aggregate = db.enderecos.aggregate([
+    {
+        $match:{
+            "usuario.email": "carol@gmail.com",
+            "usuario.cliente_ativo": true
+       }
+    },
+    {
+       $unwind: '$endereco'
+    },
+    {
+       $match: {
+    		'endereco.entrega':true
+        }
+    }
+]);
+
+
+// endereços
+db.enderecos.find({});
+db.enderecos.updateMany({}, {$rename: {"users": "user"}});
+db.enderecos.find().pretty();
+db.enderecos.find({
+    "_id": ObjectId ("632f7a86d050703536c13688")
+});
+
+// produtos
+db.produtos.find().pretty();
+db.produtos.find({});
+
+
+// pedidos
+db.pedidos.find({
+    "_id": ObjectId("")
+});
+
+// itens do carrinho
+db.itens_do_pedido.find({});
+db.itens_do_pedido.find({});
+​db.itens_do_pedido.find({}).skip(0).limit(2).sort({});
+db.itens_do_pedido.find({}).skip(0).limit(2).cout();
+​

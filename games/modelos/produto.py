@@ -1,6 +1,6 @@
 from decimal import Decimal
 from pydantic import BaseModel, Field, PositiveInt
-from typing import List
+from typing import List, Optional
 
 
 class Produto(BaseModel):
@@ -8,8 +8,9 @@ class Produto(BaseModel):
     descricao: str = Field(max_length=100)
     plataforma: str = Field(max_length=20)
     preco: Decimal = Field(max_digits=10, decimal_places=3)
-    qantidade_em_estoque: int = Field(PositiveInt)
-    codigo: int = Field(unique=True)
+    quantidade_em_estoque: PositiveInt
+    codigo: Optional[int] = Field(unique=True)
+    imagem: str
 
 
 class Plataforma(BaseModel):
