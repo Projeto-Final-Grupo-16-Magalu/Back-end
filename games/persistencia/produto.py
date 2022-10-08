@@ -1,47 +1,19 @@
-async def cria_produto(colecao, produto):
+from motor.motor_asyncio import AsyncIOMotorClient
+from games.servidor import database
+from games.servidor.database import connect_db, db, disconnect_db
+
+   
+async def cria_produto(produto):
+    await connect_db()
+    colecao_produtos = db.colecao_produtos
+   
     try:
-        ...
+        produto = await colecao_produtos.insert_one(produto)
+        
+        #if produto.inserted_id:
+           # produto = await cria_produto(colecao_produtos, produto.inserted_id)
+        await  disconnect_db()   
+        return produto.inserted_id
 
     except Exception as e:
         print(f'cria_produto.erro: {e}')
-
-async def pesquisa_produto(colecao, id_produto):
-    try:
-        ...
-    except Exception as e:
-        print(f'pesquisa_produto.erro: {e}')
-
-async def pesquisa_produto_pelo_codigo(colecao, codigo_produto):
-    try:
-        ...
-    except Exception as e:
-        print(f'pesquisa_produto_pelo_codigo.erro: {e}')
-
-async def pesquisa_produto_pelo_nome(colecao, nome_produto):
-    try:
-        ...
-    except Exception as e:
-        print(f'pesquisa_produto_pelo_nome.erro: {e}')
-
-async def pesquisa_produtos(colecao, skip, limit):
-    try:
-        ## Realiza busca paginada de todos os produtos cadastros no banco
-        cursor = colecao.find().skip(int(skip)).limit(int(limit))
-        produtos = await cursor.to_list(length=int(limit))
-        return produtos
-
-    except Exception as e:
-        print(f'pesquisa_produtos.erro: {e}')
-
-async def atualiza_produto(colecao, id_produto, datos_produto):
-    try:
-        ...
-
-    except Exception as e:
-        print(f'atualiza_produto.erro: {e}')
-
-async def deleta_produto(colecao, id_produto):
-    try:
-        ...
-    except Exception as e:
-        print(f'deleta_produto.error: {e}')
