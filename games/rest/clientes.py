@@ -27,10 +27,9 @@ rota_clientes = APIRouter(
         }
     }
 )
-async def criar_novo_cliente(clientes:Cliente):
-    novo_cliente = await clientes_regras.inserir_novo_cliente(clientes)
+async def criar_novo_cliente(cliente: Cliente):
+    novo_cliente = await clientes_regras.inserir_novo_cliente(cliente)
     return novo_cliente
-
 
 # Pesquisa cliente pelo email.
 @rota_clientes.get(

@@ -1,37 +1,27 @@
-from os import environ
+import asyncio
 
-from motor.motor_asyncio import AsyncIOMotorClient
+from motor.motor_asyncio import (AsyncIOMotorClient, AsyncIOMotorCollection,
+                                 AsyncIOMotorDatabase)
 
-
-class DataBase:
-    client: AsyncIOMotorClient = None
-    #database_uri = environ.get('BD_URL')
-    database_uri = "mongodb+srv://games:games@cluster0.udqxomv.mongodb.net"
-    colecao_usuarios = None
-    colecao_enderecos = None
-    colecao_produtos = None
-    colecao_pedidos = None
-    colecao_itens_do_pedido = None
+def iniciar_cliente_mongo() -> AsyncIOMotorClient:
+    # Conectando no banco de dados
+    cliente_mongo = AsyncIOMotorClient('mongodb+srv://games:games@cluster0.udqxomv.mongodb.net/games')
+    cliente_mongo.get_io_loop = asyncio.get_event_loop
+    return cliente_mongo
 
 
-db = DataBase()
-
-async def connect_db():
-    # conexao mongo, com no máximo 10 conexões async
-    db.client = AsyncIOMotorClient(
-        db.database_uri,
-        maxPoolSize=10,
-        minPoolSize=10,
-        tls=True,
-        tlsAllowInvalidCertificates=True
-    )
-
-    db.colecao_usuarios = db.client.games.usuarios
-    db.colecao_enderecos = db.client.games.enderecos
-    db.colecao_produtos = db.client.games.produtos
-    db.colecao_pedidos = db.client.games.pedidos
-    db.colecao_itens_do_pedido = db.client.games.itens_do_pedido
+cliente_mongo = iniciar_cliente_mongo()
 
 
-async def disconnect_db():
-    db.client.close()
+def obter_base_dados() -> AsyncIOMotorDatabase:
+    # Obtém a base de dados (database) padrão
+    # (a que está na string de conexão)
+    return cliente_mongo.get_default_database()
+
+
+def obter_colecao(nome_colecao: str) -> AsyncIOMotorCollection:
+    # Obtém a coleção informada da base de dados padrão.
+    bd = obter_base_dados()
+    colecao = bd[nome_colecao]
+
+    return colecao
