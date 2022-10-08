@@ -9,3 +9,8 @@
 #     load_dotenv
 #     configuracao = Configuracao()
 #     return configuracao
+
+COLECAO_CLIENTES = 'clientes'
+COLECAO_ENDERECOS = 'enderecos'
+COLECAO_PRODUTOS = 'produtos'
+COLECAO_CARRINHOS = 'carrinhos'

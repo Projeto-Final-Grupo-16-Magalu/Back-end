@@ -10,3 +10,8 @@ POST http://127.0.0.1:8000/api/clientes
     "administrador" : false
 
 }
+
+
+###
+
+GET http://127.0.0.1:8000/api/clientes/carol@gmail.com
