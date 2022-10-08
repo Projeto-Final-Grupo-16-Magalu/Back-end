@@ -1,23 +1,31 @@
 from typing import List
-
-import games.regras.clientes as clientes_regras
 from fastapi import APIRouter, status
-from games.modelos.cliente import (Cliente) 
-                             
+from games.modelos.endereco import Endereco
+import games.regras.clientes as clientes_regras
+from games.modelos.cliente import Cliente, ErroEmailJaCadastrado
+from games.rest.documentacao import DESCRICAO_CADASTRAR_CLIENTE                             
 
 # Minha rota API de clientes
 rota_clientes = APIRouter(
     # Prefixo para o caminho da rota
-    prefix="/api/clientes"
+    prefix="/api/clientes",
+    tags = ["Clientes"]
 )
 
 
-# Cria nova cliente
+# Cria novo cliente
 @rota_clientes.post(
     "/",
-
+    summary= "Cadastro de cliente",
+    description= DESCRICAO_CADASTRAR_CLIENTE,
     status_code=status.HTTP_201_CREATED,
-     response_model= Cliente, 
+    response_model= Cliente, 
+    responses = {
+        status.HTTP_409_CONFLICT:{
+            "description": "Já existe um cliente cadastrado com esse email",
+            "model": ErroEmailJaCadastrado
+        }
+    }
 )
 async def criar_novo_cliente(clientes:Cliente):
     novo_cliente = await clientes_regras.inserir_novo_cliente(clientes)

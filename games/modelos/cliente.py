@@ -5,7 +5,22 @@ from typing import Optional
 
 class Cliente(BaseModel):
     nome: str = Field(max_length=50)
-    email: EmailStr = Field(unique=True, index=True)
+    email: EmailStr 
     senha: str = Field(min_length=4, max_length=8)
     cliente_ativo: Optional[bool] = Field(default=True)
     administrador: Optional[bool] = Field(default=False)
+    
+#Modelo para erro: email já cadastrado
+class ErroEmailJaCadastrado(BaseModel):
+    """Já existe um cliente cadastrado com esse email informado"""
+    mensagem: str = Field(
+        ...,
+        description="Mensagem com a causa do erro"
+    )
+    class Config:
+        schema_extra={
+            "example": {
+                "mensagem": "Já existe um cliente cadastrado com esse email"
+            }
+        }
+    

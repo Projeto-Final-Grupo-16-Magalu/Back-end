@@ -8,7 +8,7 @@ from games.servidor.database import (DataBase, connect_db)
 from games.modelos.endereco import Endereco, EnderecosCliente
 
 
-COLECAO_ENDERECOS = connect_db("enderecos")
+COLECAO_ENDERECOS = connect_db()
 
 db = DataBase()
 
@@ -17,7 +17,7 @@ async def pesquisar_endereço_por_email(email: EmailStr) -> Optional[dict]:
         Cliente.email: email
     }
     enderecos = await COLECAO_ENDERECOS.find(filtro)
-    return db.colecao_enderecos 
+    return enderecos
 
 
 async def inserir_um_novo_endereco(novo_endereco: dict) -> dict:
