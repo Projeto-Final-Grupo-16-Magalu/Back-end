@@ -1,22 +1,24 @@
 import datetime
-from pydantic import BaseModel, Field, PositiveInt
 from typing import List
+from decimal import Decimal
+from pydantic import BaseModel, Field, PositiveInt
+from pydantic.networks import EmailStr
 
-from .cliente import Cliente
-from .endereco import Endereco
-from .produto import Produto
+#from games.modelos.endereco import Endereco
+from games.modelos.produto import Produto
 
 
-class ItemsCarrinho(BaseModel):
-    produtos: Produto
+class ItemCarrinho(BaseModel):
+    produto: Produto
     quantidade: int = Field(PositiveInt)
-    valor: float = Field(max_digits=10, decimal_places=2)
+    valor: Decimal = Field(max_digits=10, decimal_places=2)
 
 
 class Carrinho(BaseModel):
-    cliente: Cliente
-    produtos: List[ItemsCarrinho] = []
-    preco: float = Field(max_digits=10, decimal_places=2)
-    pagamento: bool = Field(default=False)
+    cliente: EmailStr
+    quantidade_produtos: int = Field(default=0)
+    valor_total: Decimal = Field(default=0, max_digits=10, decimal_places=2)
+    aberto: bool = Field(default=True)
+    produtos: List = []
     data_de_criacao: datetime.datetime = Field(default=datetime.datetime.now())
-    entrega: Endereco
+    #entrega: Endereco

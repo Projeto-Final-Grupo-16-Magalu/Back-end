@@ -1,4 +1,9 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status
+
+import games.regras.carrinho as carrinho_regras
+import games.persistencia.carrinho as persistencia_carrinho
+from games.modelos.carrinho import Carrinho
+from games.modelos.cliente import Cliente
 
 rota_carrinho = APIRouter(
     prefix="/api/carrinho-compras"
@@ -6,8 +11,16 @@ rota_carrinho = APIRouter(
 
 # Cria um carrinho de compras aberto
 @rota_carrinho.post("/")
-def criar_novo_carrinho(carrinho: dict):
-    return (f'criar_novo_carrinho {carrinho}')
+async def criar_novo_carrinho(carrinho: Carrinho):
+  #  print(carrinho)
+    carrinho_criado = await carrinho_regras.criar_novo_carrinho(carrinho)
+    return (f'criar_novo_carrinho {carrinho_criado}')
+
+@rota_carrinho.post(
+    "/{email_cliente}")
+async def criar_carrinho(email_cliente):
+    carrinho_criado = await carrinho_regras.criar_novo_carrinho(email_cliente)
+    return carrinho_criado
 
 # Atualiza quantidade de itens do carrinho
 @rota_carrinho.put("/{codigo_carrinho}")

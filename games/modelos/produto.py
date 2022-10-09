@@ -12,7 +12,6 @@ class Produto(BaseModel):
     codigo: Optional[int] = Field(unique=True)
     imagem: str
 
-
 class Plataforma(BaseModel):
     marca: str = Field(max_length=20)
     Produtos: List[Produto] = []
