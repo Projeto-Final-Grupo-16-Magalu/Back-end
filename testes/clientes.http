@@ -1,5 +1,4 @@
-#Cria novo cliente
-
+### Cria novo cliente
 POST http://127.0.0.1:8000/api/clientes
 
 {
@@ -11,7 +10,17 @@ POST http://127.0.0.1:8000/api/clientes
 
 }
 
+### 
+POST http://127.0.0.1:8000/api/clientes
+
+{
+    "nome": "Camila",
+    "email": "camila@gmail.com",
+    "senha": "teste",
+    "cliente_ativo" : true,
+    "administrador" : false
+
+}
 
 ###
-
-GET http://127.0.0.1:8000/api/clientes/carol@gmail.com
+GET http://127.0.0.1:8000/api/clientes/camila@gmail.com

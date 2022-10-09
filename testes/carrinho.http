@@ -1,12 +1,30 @@
 ### Cria um carrinho de compras aberto
 POST http://127.0.0.1:8000/api/carrinho-compras
+Content-Type: application/json
 
 {
-    "codigo_carinho": 1,
     "cliente": "camila@gmail.com",
     "quantidade_produtos": 0,
     "valor_total": 0,
     "aberto": true
+}
+
+### Cria o carrinho da Jones
+POST http://127.0.0.1:8000/api/carrinho-compras
+Content-Type: application/json
+
+{
+    "cliente":"jones@email.com",
+    "produtos": [],
+    "preco": 0,
+    "entrega": {
+        "nome": "casa",
+        "logradouro": "rua coisada",
+        "cep": "44433-555",
+        "bairro": "doidao",
+        "cidade": "qualquer",
+        "estado": "bl",
+        "entrega": true
 }
 
 ### Atualiza quantidade de itens do carrinho

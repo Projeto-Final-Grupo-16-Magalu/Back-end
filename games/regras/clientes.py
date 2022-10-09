@@ -6,9 +6,7 @@ from games.modelos.cliente import (Cliente)
 from games.regras.excecoes import (NaoEncontradoExcecao, OutroRegistroExcecao)
 
 
-async def pesquisar_por_email(
-    email: EmailStr, lanca_excecao_se_nao_encotrado: bool = False
-) -> Optional[dict]:
+async def pesquisar_por_email(email: EmailStr, lanca_excecao_se_nao_encotrado: bool = False) -> Optional[dict]:
    clientes = await clientes_persistencia.pesquisar_pelo_email(email)
    if not clientes and lanca_excecao_se_nao_encotrado:
         raise NaoEncontradoExcecao("Cliente não encontrada")
@@ -26,12 +24,8 @@ async def validar_novo_cliente(novo_cliente: Cliente):
         raise OutroRegistroExcecao("Há outro cliente cadastrado com este email")
 
 
-async def inserir_novo_cliente(clientes: Cliente) -> Cliente: 
-    await validar_novo_cliente(clientes)  
-    novo_cliente = clientes.dict()
-
-    await clientes_persistencia.inserir_um_novo_cliente(novo_cliente)
-
-    cliente_geral = Cliente(**novo_cliente)
-
-    return cliente_geral
+async def inserir_novo_cliente(cliente: Cliente) -> Cliente: 
+    await validar_novo_cliente(cliente)  
+    novo_cliente = cliente.dict()
+    novo_cliente = await clientes_persistencia.inserir_um_novo_cliente(novo_cliente)
+    return Cliente(**novo_cliente)

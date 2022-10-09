@@ -8,7 +8,7 @@ from games.configuracoes import COLECAO_CLIENTES
    
 async def pesquisar_pelo_email(email: EmailStr) -> Optional[dict]:
     filtro = {
-        "email":email
+        "email": email
     }
     clientes = await obter_colecao(COLECAO_CLIENTES).find_one(filtro)
     return clientes
