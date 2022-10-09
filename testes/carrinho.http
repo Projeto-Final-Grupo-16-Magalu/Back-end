@@ -27,6 +27,15 @@ Content-Type: application/json
         "entrega": true
 }
 
+###
+POST http://127.0.0.1:8000/api/carrinho-compras
+Content-Type: application/json
+
+{
+    "cliente": "Dinara@gmail.com"
+}
+
+
 ### Atualiza quantidade de itens do carrinho
 PUT http://127.0.0.1:8000/api/carrinho-compras/2
 

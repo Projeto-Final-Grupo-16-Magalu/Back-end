@@ -21,7 +21,7 @@ async def pesquisa_carrinhos(cliente_email):
         return carrinhos
     except Exception as e:
         print(f'pesquisa_carrinhos.erro: {e}')
-
+    
 
 async def pesquisa_carrinho_aberto_cliente(cliente_email):
     try:
@@ -30,10 +30,19 @@ async def pesquisa_carrinho_aberto_cliente(cliente_email):
             "aberto": True
         }
         carrinho = await obter_colecao(COLECAO_CARRINHOS).find_one(filtro)
-        print(f'PERSISTÊNCIA: pesquisa_carrinho_aberto_cliente: {carrinho}')
         return carrinho
     except Exception as e:
         print(f'pesquisa_carrinho_aberto_cliente.erro: {e}')
+
+async def pesquisa_carrinho_pelo_codigo(id_carrinho):
+    try:
+        filtro = {
+            "_id": id_carrinho
+        }
+        carrinho = await obter_colecao(COLECAO_CARRINHOS).find_one(filtro)
+        return carrinho
+    except Exception as e:
+        print(f'pesquisa_carrinho_pelo_codigo.erro: {e}')
 
 async def pesquisa_carrinhos_fechado_cliente(email_cliente):
     try:
@@ -82,7 +91,19 @@ async def atualiza_item_carrinho(id_carrinho, codigo_produto):
 
 async def fecha_carrinho(id_carrinho):
     try:
-        ...
+        dados = {
+            "aberto": False
+        }
+
+        atualizacao = await obter_colecao(COLECAO_CARRINHOS).update_one(
+            {'_id': id_carrinho},
+            {'$set': dados}
+        )
+
+        if atualizacao.modified_count:
+            return {"message": "Carrinho fechado com sucesso"}
+
+        return None
 
     except Exception as e:
         print(f'fecha_carrinho.erro: {e}')
