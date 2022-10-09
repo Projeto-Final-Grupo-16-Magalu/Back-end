@@ -7,8 +7,8 @@ class Produto(BaseModel):
     nome: str = Field(unique=True, max_length=50)
     descricao: str = Field(max_length=100)
     plataforma: str = Field(max_length=20)
-    preco: Decimal = Field(max_digits=10, decimal_places=3)
-    quantidade_em_estoque: PositiveInt
+    preco: float
+    quantidade_em_estoque: int
     codigo: Optional[int] = Field(unique=True)
     imagem: str
 
@@ -16,3 +16,7 @@ class Produto(BaseModel):
 class Plataforma(BaseModel):
     marca: str = Field(max_length=20)
     Produtos: List[Produto] = []
+
+class ErroNomeJaCadastrado(BaseModel):
+    """Já existe um produto cadastrado com esse nome"""
+    mensagem: str
