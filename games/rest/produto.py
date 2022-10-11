@@ -47,7 +47,11 @@ def pesquisar_todos_produto():
        
     }]
 
-
+# @rota_produto.delete("/{codigo_produto}")
+# def remover_produto(codigo_produto: str):
+#    res = await  remover_uma_produto_pelo_codigo(codigo_produto)
+#    print("Remover produto", codigo_produto)
+#    return None
 
 
      
