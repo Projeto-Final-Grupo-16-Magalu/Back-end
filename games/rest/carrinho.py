@@ -2,22 +2,31 @@ from fastapi import APIRouter
 from pydantic import EmailStr
 
 import games.regras.carrinho as carrinho_regras
-from games.modelos.carrinho import Carrinho
+from games.modelos.carrinho import Carrinho, ItemCarrinho
+
 
 rota_carrinho = APIRouter(
     prefix="/api/carrinho-compras"
 )
 
 # Cria um carrinho de compras aberto
-@rota_carrinho.post("/")
+@rota_carrinho.post(
+    "/",
+    response_model = Carrinho
+    )
 async def criar_novo_carrinho(carrinho: Carrinho):
     carrinho_criado = await carrinho_regras.criar_novo_carrinho(carrinho)
-    return (carrinho_criado)
+    return carrinho_criado
 
 # Atualiza quantidade de itens do carrinho
-@rota_carrinho.put("/{email_cliente}")
-def atualizar_carinho(email_cliente: EmailStr, carrinho: Carrinho):
-    return(f'atualizar_carinho {email_cliente} | {carrinho}')
+@rota_carrinho.put(
+    "/adicionar_item",
+    response_model = Carrinho
+    )
+async def adicionar_item_carrinho(email_cliente: str, item_carrinho: ItemCarrinho):
+    carrinho_atualizado = await carrinho_regras.adiciona_item_carrinho(email_cliente, item_carrinho)
+    return carrinho_atualizado
+
 
 # Fecha um carrinho aberto
 @rota_carrinho.put("/fechar/{email_cliente}")

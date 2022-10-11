@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, EmailStr, Field
 from typing import List
 
 from games.modelos.cliente import Cliente
@@ -15,8 +15,8 @@ class Endereco(BaseModel):
 
 
 class EnderecosCliente(BaseModel):
-    cliente: Cliente
-    enderecos: List[Endereco] = []
+    cliente: EmailStr
+    enderecos: List = []
 
 #Modelo para erro: endereço já cadastrado para esse usuário
 class ErroEnderecoJaCadastrado(BaseModel):

@@ -1,25 +1,27 @@
+from games.configuracoes import COLECAO_ENDERECOS
+from games.servidor.database import obter_colecao
 
-
-from typing import List, Optional
-
+from typing import Optional
 from pydantic import EmailStr
 from games.modelos.cliente import Cliente
-from games.servidor.database import (DataBase, connect_db)
-from games.modelos.endereco import Endereco, EnderecosCliente
 
 
-COLECAO_ENDERECOS = connect_db()
+colecao = obter_colecao(COLECAO_ENDERECOS)
 
-db = DataBase()
 
 async def pesquisar_endereço_por_email(email: EmailStr) -> Optional[dict]:
     filtro = {
-        Cliente.email: email
+        'cliente': email
     }
-    enderecos = await COLECAO_ENDERECOS.find(filtro)
+    enderecos = await colecao.find_one(filtro)
     return enderecos
 
 
-async def inserir_um_novo_endereco(novo_endereco: dict) -> dict:
-    await COLECAO_ENDERECOS.insert_one(novo_endereco)
-    return novo_endereco
+async def inserir_um_novo_endereco(email: EmailStr, novo_endereco: dict) -> dict:
+    filtro = {
+        'cliente': email
+    }
+    enderecos = await colecao.find_one(filtro)
+    atualizacao = {'$push': {'enderecos': novo_endereco}}
+    await colecao.insert_one(filtro, atualizacao)
+    return enderecos
