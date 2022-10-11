@@ -85,9 +85,9 @@ cd projetocarrinho
 - [Etapa 1](https://github.com/dsamandarc/carrinhogrupo18/tree/Etapa-1): Esboço das APIs.
 - [Etapa 2](): Organizando a aplicação.
 - [Etapa 3](): Conectando o banco de dados.
-- [Etapa 4](): Cadastro de uma nova música.
-- [Etapa 5](): Removendo uma música.
-- [Etapa 6](): Atualização da música.
+- [Etapa 4](): Cadastro de uma nova produto.
+- [Etapa 5](): Removendo uma produto.
+- [Etapa 6](): Atualização da produto.
 - [Etapa 7](): Testes _manuais_.
 
 ## :woman:*Desenvolvedoras*
