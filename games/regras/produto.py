@@ -10,15 +10,17 @@ from games.servidor.database import obter_colecao
 async def inserir_novo_produto(produto: Produto) -> Produto:
     await validar_produto(produto)
     novo_produto = produto.dict()
-       
+
     await produtos_persistencia.inserir_novo_produto(novo_produto)
 
     # Retornando o registro do produto completo
     produto_geral = Produto(**novo_produto)
     return produto_geral
 
-async def pesquisar_todos_produtos()-> List[dict]:
-    todos = await produtos_persistencia.pesquisar_todos_produtos
+async def pesquisar_todos_produtos():
+    todos = await produtos_persistencia.pesquisar_todos_produtos()
+    return todos
+
 
 async def validar_produto(novo_produto: Produto):
     outro_produto = await produtos_persistencia.pesquisar_pelo_nome(novo_produto.nome)
@@ -50,7 +52,7 @@ async def validar_produto(novo_produto: Produto):
 
 
 # async def remover_por_codigo(codigo: str):
-  
+
 #     removeu = await produto.remover_uma_produto_pelo_codigo(codigo)
 
 #     if not removeu:
@@ -107,7 +109,7 @@ async def validar_produto(novo_produto: Produto):
 #     def __init__(self, mensagem: str) -> None:
 #         super(OutroRegistroExcecao, self).__init__(mensagem)
 
-# # 
+# #
 # class CodigosDiferentesExcecao(OutroRegistroExcecao):
 #     def __init__(self) -> None:
-#         super().__init__("Código diferentes")  
+#         super().__init__("Código diferentes")
