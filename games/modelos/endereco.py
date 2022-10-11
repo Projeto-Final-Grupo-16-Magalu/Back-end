@@ -16,7 +16,7 @@ class Endereco(BaseModel):
 
 class EnderecosCliente(BaseModel):
     cliente: EmailStr
-    enderecos: List = []
+    enderecos: List[Endereco] = []
 
 #Modelo para erro: endereço já cadastrado para esse usuário
 class ErroEnderecoJaCadastrado(BaseModel):

@@ -25,3 +25,7 @@ async def inserir_um_novo_endereco(email: EmailStr, novo_endereco: dict) -> dict
     atualizacao = {'$push': {'enderecos': novo_endereco}}
     await colecao.insert_one(filtro, atualizacao)
     return enderecos
+
+async def pesquisar_endereco_entrega():
+    ...
+

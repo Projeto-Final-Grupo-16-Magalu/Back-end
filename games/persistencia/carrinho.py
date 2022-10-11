@@ -67,12 +67,9 @@ async def pesquisa_item_carrinho(email_cliente, codigo_produto):
     try:
         filtro = {
             'cliente': email_cliente,
-            'produtos': [{
-                'produto': codigo_produto
-        }]
-        }
+            'produtos': { '$elemMatch': {'produto': codigo_produto}}}
         produto_existente = await colecao.find_one(filtro)
-        return produto_existente #PQ None?!?!?!?! :'(
+        return produto_existente
     except Exception as e:
         print(f'pesquisa_item_carrinho.erro: {e}')
 
@@ -118,15 +115,14 @@ async def atualiza_item_carrinho(email_cliente: str, codigo_produto: int, quanti
     try:
         filtro = {
             'cliente': email_cliente,
-            'produtos': {'produto': codigo_produto}
+            'produtos': {'$elemMatch': {'produto': codigo_produto}}
         }
         carrinho = await colecao.find_one(filtro)
-        atualizacao = {'$set': {'produtos': [{
-            'quantidade': carrinho['quantidade'] + quantidade,
-            'valor_total': carrinho['valor_total'] * quantidade
-        }]}
-            }
-        await colecao.update_one(filtro, atualizacao)
+        atualizacao = {'$set': {
+            'produtos.$.quantidade': carrinho['produtos'][0]['quantidade'] + quantidade,
+            'produtos.$.valor': carrinho['produtos'][0]['valor'] * quantidade
+        }}
+        await colecao.update_one(filtro, atualizacao, upsert=True)
         return carrinho
 
     except Exception as e:

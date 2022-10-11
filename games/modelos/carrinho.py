@@ -4,6 +4,8 @@ from decimal import Decimal
 from pydantic import BaseModel, Field
 from pydantic.networks import EmailStr
 
+from games.modelos.endereco import Endereco
+
 
 class ItemCarrinho(BaseModel):
     produto: int
@@ -16,6 +18,6 @@ class Carrinho(BaseModel):
     quantidade_produtos: int = Field(default=0)
     valor_total: float
     aberto: bool = Field(default=True)
-    produtos: List = []
+    produtos: List[ItemCarrinho]
     data_de_criacao: datetime.datetime = Field(default=datetime.datetime.now())
-    #entrega: Endereco
+    entrega: Endereco = Field(default=None)

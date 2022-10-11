@@ -38,7 +38,7 @@ async def adiciona_item_carrinho(email: str, item_carrinho: ItemCarrinho):
     produto = await produtos_persistencia.pesquisar_pelo_codigo(item_carrinho.produto)
     await verifica_quantidade_produto(item_carrinho, produto)
     carrinho_atualizado = await item_no_carrinho(email, item_carrinho.produto, item_carrinho.quantidade)
-    return carrinho_atualizado
+    return print(carrinho_atualizado)
 
 #Pesquisa todos os carrinhos
 async def pesquisar_por_todos_carrinhos() -> List[dict]:
@@ -75,7 +75,9 @@ async def item_no_carrinho(email_cliente, codigo_produto, quantidade):
 #Fecha carrinho do cliente
 async def fechar_carrinho(email_cliente: EmailStr):
     # Verifica se e-mail é válido: existe cliente cadastrado
+
     cliente = await clientes_persistencia.pesquisar_pelo_email(email_cliente)
+
 
     # Caso o cliente não seja encontrado, lança exceção
     if cliente == None:
@@ -83,7 +85,7 @@ async def fechar_carrinho(email_cliente: EmailStr):
 
     # Caso o cliente exista, verifica se já existe carrinho aberto para esse cliente
     carrinho = await verifica_carrinho_aberto(email_cliente, False)
-
+    #pesquisar_endereco_entrega
     # Fecha carrinho
     status = await carrinho_persistencia.fecha_carrinho(carrinho['_id'])
 

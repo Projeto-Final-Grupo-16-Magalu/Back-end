@@ -12,7 +12,7 @@ rota_carrinho = APIRouter(
 # Cria um carrinho de compras aberto
 @rota_carrinho.post(
     "/",
-    response_model = Carrinho
+    response_model=Carrinho
     )
 async def criar_novo_carrinho(carrinho: Carrinho):
     carrinho_criado = await carrinho_regras.criar_novo_carrinho(carrinho)
@@ -20,8 +20,7 @@ async def criar_novo_carrinho(carrinho: Carrinho):
 
 # Atualiza quantidade de itens do carrinho
 @rota_carrinho.put(
-    "/adicionar_item",
-    response_model = Carrinho
+    "/adicionar_item"
     )
 async def adicionar_item_carrinho(email_cliente: str, item_carrinho: ItemCarrinho):
     carrinho_atualizado = await carrinho_regras.adiciona_item_carrinho(email_cliente, item_carrinho)
