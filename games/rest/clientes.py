@@ -2,8 +2,8 @@ from typing import List
 from fastapi import APIRouter, status
 from games.modelos.endereco import Endereco
 import games.regras.clientes as clientes_regras
-from games.modelos.cliente import Cliente, ErroEmailJaCadastrado
-from games.rest.documentacao import DESCRICAO_CADASTRAR_CLIENTE                             
+from games.modelos.cliente import Cliente, ErroEmailJaCadastrado,ErroClienteNaoEncontrado
+from games.rest.documentacao import DESCRICAO_CADASTRAR_CLIENTE, DESCRICAO_PESQUISAR_CLIENTE_POR_EMAIL, DESCRICAO_PESQUISAR_CLIENTES                             
 
 # Minha rota API de clientes
 rota_clientes = APIRouter(
@@ -35,13 +35,13 @@ async def criar_novo_cliente(cliente: Cliente):
 @rota_clientes.get(
     "/{email}",
     summary= "Pesquisa de cliente por email",
-    description= DESCRICAO_PESQUISAR_CLIENTE,
-    status_code=status.HTTP_201_CREATED,
-    response_model = Cliente
+    description= DESCRICAO_PESQUISAR_CLIENTE_POR_EMAIL,
+    status_code=status.HTTP_200_OK,
+    response_model = Cliente,
     responses = {
-        status.HTTP_404_GONE:{
+        status.HTTP_404_NOT_FOUND:{
             "description": "Cliente não encontrado",
-            "model": ErroEnderecoNaoEncontrado}    
+            "model": ErroClienteNaoEncontrado}    
         }
     
 )
@@ -53,8 +53,15 @@ async def pesquisar_cliente_pelo_email(email: str):
 # Pesquisa por todos os clientes (sem um filtro)
 @rota_clientes.get(
     "/",
-    
-     response_model=List[Cliente] 
+    summary= "Pesquisa todos os clientes",
+    description= DESCRICAO_PESQUISAR_CLIENTES,
+    status_code=status.HTTP_200_OK,
+    response_model = List[Cliente],
+    responses = {
+        status.HTTP_404_NOT_FOUND:{
+            "description": "Clientes não encontrados",
+            "model": ErroClienteNaoEncontrado}    
+        }
 )
 async def pesquisar_todos_os_clientes() -> List[Cliente]:  
     todos = await clientes_regras.pesquisar_por_todos()

@@ -1,3 +1,6 @@
+##############################################################
+#CLIENTES
+##############################################################
 DESCRICAO_CADASTRAR_CLIENTE = """
 Cadastrar um novo cliente. Para cadastrar um novo cliente:</br>
     <li>-nome: Deve ter pelo menos um nome</br>
@@ -9,6 +12,25 @@ Cadastrar um novo cliente. Para cadastrar um novo cliente:</br>
 e no corpo da resposta um registro com os campos cadastrados, além de um id criado pelo sistema.</br>
 Se o cadastro apresentar *erro* a API retornará uma mensagem informando o tipo de erro."""
 
+DESCRICAO_PESQUISAR_CLIENTES = """
+Pesquisar todos os clientes no Banco de Dados.
+
+Se a pesquisa for realizada com *sucesso* a API retornará sucesso (código HTTP 200) e </br>
+e no corpo da resposta uma lista de clientes.</br>
+Se a pesquisa apresentar *erro* a API retornará uma mensagem informando o tipo de erro.</br>"""
+
+DESCRICAO_PESQUISAR_CLIENTE_POR_EMAIL = """
+Pesquisar cliente por email. Para pesquisar cliente por email:</br>
+<li>-Passar o email do cliente</br>
+
+Se a pesquisa for realizada com *sucesso* a API retornará sucesso (código HTTP 200) e </br>
+e no corpo da resposta o cadastro requerido.</br>
+Se a pesquisa apresentar *erro* a API retornará uma mensagem informando o tipo de erro.</br>"""
+
+
+##############################################################
+#ENDEREÇOS
+##############################################################
 
 DESCRICAO_CADASTRAR_ENDERECO = """
 Cadastrar endereços para um cliente. Para cadastrar um novo endereço:</br>
@@ -29,7 +51,7 @@ Pesquisar endereços de um cliente. Para pesquisar endereço pelo email do clien
 
 Se a pesquisa for realizada com *sucesso* a API retornará sucesso (código HTTP 200) e </br>
 e no corpo da resposta uma lista de endereços do cliente.</br>
-Se o cadastro apresentar *erro* a API retornará uma mensagem informando o tipo de erro.</br>"""
+Se a pesquisa apresentar *erro* a API retornará uma mensagem informando o tipo de erro.</br>"""
 
 DESCRICAO_DELETAR_ENDERECO = """
 Deletar o endereço de um cliente. Para deletar o endereço pelo email do cliente:</br>
@@ -38,4 +60,4 @@ Deletar o endereço de um cliente. Para deletar o endereço pelo email do client
 
 Se a remoçao for realizada com *sucesso* a API retornará sucesso (código HTTP 200) e </br>
 e no corpo da resposta uma mensagem ("Seu endereço foi removido com sucesso!).</br>
-Se o cadastro apresentar *erro* a API retornará uma mensagem informando o tipo de erro.</br>""" 
+Se a remoçao apresentar *erro* a API retornará uma mensagem informando o tipo de erro.</br>""" 
