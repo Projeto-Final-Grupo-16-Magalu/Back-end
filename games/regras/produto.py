@@ -11,7 +11,7 @@ from games.servidor.database import obter_colecao
 async def inserir_novo_produto(produto: Produto) -> Produto:
     await validar_produto(produto)
     novo_produto = produto.dict()
-       
+
     await produtos_persistencia.inserir_novo_produto(novo_produto)
 
     # Retornando o registro do produto completo

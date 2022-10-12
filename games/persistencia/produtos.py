@@ -34,6 +34,23 @@ async def pesquisar_pelo_id_produto(id):
         '_id' : ObjectId(id)
     }
     colecao = obter_colecao(COLECAO_PRODUTOS)
+    produto_nome = await colecao.find_one(filtro)
+
+    return produto_nome
+
+async def pesquisar_pelo_codigo(codigo: int) -> Optional[dict]:
+    colecao = obter_colecao(COLECAO_PRODUTOS)
+    filtro = {
+        'codigo': codigo
+    }
+    produto_pesquisado = await colecao.find_one(filtro)
+    return produto_pesquisado
+
+async def atualiza_produto(codigo: int, quantidade_comprada: int):
+    colecao = obter_colecao(COLECAO_PRODUTOS)
+    filtro = {
+        'codigo': codigo
+    }
     produto = await colecao.find_one(filtro)
     return produto
 
@@ -55,3 +72,17 @@ async def delete_produto(id):
 
 
  #PS:  import pdb; pdb.set_trace()
+
+# Lembrar de conversar com as meninas sobre esse conflito
+
+# async def atualiza_produto(codigo: int, quantidade_comprada: int):
+#     colecao = obter_colecao(COLECAO_PRODUTOS)
+#     filtro = {
+#         'codigo': codigo
+#     }
+#     produto = await colecao.find_one(filtro)
+#     novo_valor = produto['quantidade_em_estoque'] - quantidade_comprada
+#     atualizacao = {'$set': {'quantidade_em_estoque': novo_valor}}
+#     produto_atualizado = await colecao.update_one(filtro, atualizacao)
+#     return produto_atualizado
+

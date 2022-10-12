@@ -7,6 +7,7 @@ from bson import ObjectId
 class Produto(BaseModel):
     nome: str = Field(unique=True, max_length=50)
     descricao: str = Field(max_length=100)
+    tipo: str = Field(max_length=20) #define se é console ou jogo
     plataforma: str = Field(max_length=20)
     preco: float = Field(gt = 0.01)
     quantidade_em_estoque: int = Field(gt = 0)
