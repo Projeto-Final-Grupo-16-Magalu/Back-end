@@ -1,29 +1,40 @@
-from pydantic.networks import EmailStr 
 from fastapi import APIRouter, status
+from pydantic.networks import EmailStr
 
-from games.modelos.endereco import ErroEnderecoNaoEncontrado, ErroEnderecoJaCadastrado, ErroEnderecoJaRemovido
-import games.regras.enderecos as enderecos_regras
 from games.modelos.endereco import Endereco, EnderecosCliente
-from games.rest.documentacao import DESCRICAO_CADASTRAR_ENDERECO, DESCRICAO_PESQUISAR_ENDERECO, DESCRICAO_DELETAR_ENDERECO   
+from games.modelos.endereco import (
+    ErroEnderecoNaoEncontrado,
+    ErroEnderecoJaCadastrado,
+    ErroEnderecoJaRemovido
+)
+from games.rest.documentacao import (
+    DESCRICAO_CADASTRAR_ENDERECO,
+    DESCRICAO_PESQUISAR_ENDERECO,
+    DESCRICAO_DELETAR_ENDERECO
+)
+
+import games.regras.enderecos as enderecos_regras
+
 
 # Minha rota API de endereços
 rota_enderecos = APIRouter(
     # Prefixo para o caminho da rota
-    prefix="/api/enderecos",
-    tags = ["Endereços"]
+    prefix='/api/enderecos',
+    tags = ['Endereços']
 )
+
 
 # Cadastrar Endereço
 @rota_enderecos.post(
-    "/{email}",
-    summary= "Cadastro de novo endereço",
+    '/{email}',
+    summary= 'Cadastro de novo endereço',
     description= DESCRICAO_CADASTRAR_ENDERECO,
     status_code=status.HTTP_201_CREATED,
-    response_model= EnderecosCliente, 
+    response_model= EnderecosCliente,
     responses = {
         status.HTTP_409_CONFLICT:{
-            "description": "Esse endereço já foi cadastrado para esse usuário",
-            "model": ErroEnderecoJaCadastrado
+            'description': 'Esse endereço já foi cadastrado para esse usuário',
+            'model': ErroEnderecoJaCadastrado
         }
     }
 )
@@ -31,37 +42,39 @@ async def inserir_novo_endereco(email: EmailStr, endereco: Endereco):
     novo_endereco = await enderecos_regras.inserir_novo_endereco(endereco, email)
     return novo_endereco
 
+
 # Pesquisa endereço pelo email.
 @rota_enderecos.get(
-    "/{email}",
-    summary= "Pesquisa de endereço por email",
+    '/{email}',
+    summary= 'Pesquisa de endereço por email',
     description= DESCRICAO_PESQUISAR_ENDERECO,
     status_code=status.HTTP_200_OK,
     response_model = EnderecosCliente,
     responses = {
         status.HTTP_404_NOT_FOUND:{
-            "description": "Endereço não encontrado",
-            "model": ErroEnderecoNaoEncontrado}    
+            'description': 'Endereço não encontrado',
+            'model': ErroEnderecoNaoEncontrado}
         }
 )
 async def pesquisar_endereco_por_email(email: EmailStr):
     enderecos = await enderecos_regras.pesquisar_enderecos_por_email(email)
     return enderecos
 
+
 #Deleta endereço pelo id.
 @rota_enderecos.delete(
-    "/{email}&{id_endereco}",
-    summary= "Deletar endereço do cliente pelo id do endereço",
+    '/{email}&{id_endereco}',
+    summary= 'Deletar endereço do cliente pelo id do endereço',
     description= DESCRICAO_DELETAR_ENDERECO,
     status_code=status.HTTP_200_OK,
     response_model = EnderecosCliente,
     responses = {
         status.HTTP_410_GONE:{
-            "description": "Esse endereço já foi removido para esse usuário",
-            "model": ErroEnderecoJaRemovido},
+            'description': 'Esse endereço já foi removido para esse usuário',
+            'model': ErroEnderecoJaRemovido},
         status.HTTP_404_NOT_FOUND:{
-            "description": "Endereço não encontrado",
-            "model": ErroEnderecoNaoEncontrado
+            'description': 'Endereço não encontrado',
+            'model': ErroEnderecoNaoEncontrado
         }
     }
 )

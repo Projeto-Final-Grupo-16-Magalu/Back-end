@@ -1,13 +1,15 @@
 from typing import Optional
 from pydantic.networks import EmailStr
 
-from games.modelos.endereco import Endereco, EnderecosCliente
-from games.servidor.database import obter_colecao
 from games.configuracoes import COLECAO_ENDERECOS, COLECAO_ENDERECOS_CLIENTE
 from games.logs import logger
+from games.modelos.endereco import Endereco, EnderecosCliente
+from games.servidor.database import obter_colecao
+
 
 colecao_enderecos = obter_colecao(COLECAO_ENDERECOS)
 colecao_enderecos_clientes = obter_colecao(COLECAO_ENDERECOS_CLIENTE)
+
 
 async def pesquisar_enderecos_por_email(email: EmailStr) -> Optional[dict]:
     try:
@@ -29,6 +31,7 @@ async def pesquisar_enderecos_do_cliente(email: EmailStr) -> Optional[dict]:
     except Exception as error:
         logger.exception(error)
 
+
 async def adiciona_endereco_lista(email: EmailStr, endereco: Endereco):
     try:
         filtro = {
@@ -47,6 +50,7 @@ async def adiciona_endereco_lista(email: EmailStr, endereco: Endereco):
     except Exception as error:
         logger.exception(error)
 
+
 async def validar_lista_enderecos(email_cliente, endereco: Endereco):
     try:
         filtro = {
@@ -62,6 +66,7 @@ async def validar_lista_enderecos(email_cliente, endereco: Endereco):
     except Exception as e:
         logger.exception(e)
 
+
 async def pesquisar_enderecos(endereco: Endereco) -> Optional[dict]:
     try:
         filtro = {
@@ -73,12 +78,14 @@ async def pesquisar_enderecos(endereco: Endereco) -> Optional[dict]:
     except Exception as error:
         logger.exception(error)
 
+
 async def inserir_novo_endereco(novo_endereco: dict) -> dict:
     try:
         await colecao_enderecos.insert_one(novo_endereco)
         return novo_endereco
     except Exception as error:
         logger.exception(error)
+
 
 async def cadastrar_novo_endereco(email: EmailStr, novo_endereco: dict) -> dict:
     try:
@@ -110,6 +117,7 @@ async def cadastrar_documento_cliente(email: EmailStr):
     operacao_insercao = await colecao_enderecos_clientes.insert_one(documento)
     logger.info(f'status={operacao_insercao.acknowledged}')
     return operacao_insercao.acknowledged
+
 
 async def pesquisar_endereco_entrega(email: EmailStr):
     enderecos = await pesquisar_enderecos_por_email(email)

@@ -1,5 +1,6 @@
 import logging
 
+
 '''
    A formatação abaixo permite personalizarmos
    a forma como o log será mostrado para nós.

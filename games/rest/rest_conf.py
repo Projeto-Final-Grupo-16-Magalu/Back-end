@@ -1,11 +1,11 @@
-from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI
 
-from games.rest.principal import rota_principal
-from games.rest.produto import rota_produto
 from games.rest.carrinho import rota_carrinho
 from games.rest.clientes import rota_clientes
 from games.rest.enderecos import rota_enderecos
+from games.rest.principal import rota_principal
+from games.rest.produto import rota_produto
 
 
 def configurar_rotas(app: FastAPI):
@@ -15,15 +15,17 @@ def configurar_rotas(app: FastAPI):
     app.include_router(rota_clientes)
     app.include_router(rota_enderecos)
 
+
 ############  Meninas, essa conf do Cors é para receber o front se houver tempo ##################
 def configurar_api_rest(app: FastAPI):
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
+        allow_origins=['*'],
         allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
+        allow_methods=['*'],
+        allow_headers=['*'],
     )
+
 
 def criar_aplicacao_fastapi():
     app = FastAPI()
