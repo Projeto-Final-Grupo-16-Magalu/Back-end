@@ -30,7 +30,7 @@ async def atualizar_por_codigo(id : str, produto: AtualizacaoProduto) ->bool:
     operacao_atualizacao = await colecao.update_one(filtro, atualizacao)
     
     if operacao_atualizacao.modified_count > 0:
-        produto_atualizado = await pesquisar_pelo_id(id, {'_id': 0}) 
+        produto_atualizado = await pesquisar_pelo_id(id) 
         logger.info(f'produto_atualizado={produto_atualizado}')
         return produto_atualizado  
 
@@ -58,7 +58,7 @@ async def pesquisar_pelo_id(id):
     filtro = {
         '_id' : ObjectId(id)
     }
-    produto = await colecao.find_one(filtro)
+    produto = await colecao.find_one(filtro, {'_id': 0})
     return produto
 
 async def pesquisar_pelo_codigo(codigo: int) -> Optional[dict]:
@@ -73,7 +73,7 @@ async def pesquisar_pelo_nome(nome: str) -> Optional[dict]:
     filtro = {
         'nome': nome
     }
-    produto = await colecao.find_one(filtro)
+    produto = await colecao.find_one(filtro, {'_id': 0})
     return produto
 
 

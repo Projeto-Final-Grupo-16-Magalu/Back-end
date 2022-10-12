@@ -6,7 +6,7 @@ from typing import Optional
 class Cliente(BaseModel):
     nome: str = Field(max_length=50)
     email: EmailStr 
-    senha: str = Field(min_length=4, max_length=8)
+    senha: str = Field(min_length=4, max_length=20)
     cliente_ativo: Optional[bool] = Field(default=True)
     administrador: Optional[bool] = Field(default=False)
     
