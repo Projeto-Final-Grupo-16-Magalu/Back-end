@@ -10,7 +10,7 @@ async def pesquisar_pelo_email(email: EmailStr) -> Optional[dict]:
     filtro = {
         "email": email
     }
-    cliente = await obter_colecao(COLECAO_CLIENTES).find_one(filtro)
+    cliente = await obter_colecao(COLECAO_CLIENTES).find_one(filtro, {'_id': 0} )
     return cliente
 
 async def pesquisar_todos() -> List[dict]:

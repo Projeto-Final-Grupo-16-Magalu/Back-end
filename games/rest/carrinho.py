@@ -2,8 +2,7 @@ from fastapi import APIRouter
 from pydantic import EmailStr
 
 import games.regras.carrinho as carrinho_regras
-from games.modelos.carrinho import Carrinho, ItemCarrinho
-
+from games.modelos.carrinho import AbrirCarrinho, Carrinho, ItemCarrinho
 
 rota_carrinho = APIRouter(
     prefix="/api/carrinho-compras"
@@ -14,7 +13,7 @@ rota_carrinho = APIRouter(
     "/",
     response_model=Carrinho
     )
-async def criar_novo_carrinho(carrinho: Carrinho):
+async def criar_novo_carrinho(carrinho: AbrirCarrinho):
     carrinho_criado = await carrinho_regras.criar_novo_carrinho(carrinho)
     return carrinho_criado
 

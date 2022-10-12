@@ -16,8 +16,12 @@ class ItemCarrinho(BaseModel):
 class Carrinho(BaseModel):
     cliente: EmailStr
     quantidade_produtos: int = Field(default=0)
-    valor_total: float
+    valor_total: float = Field(default=0)
     aberto: bool = Field(default=True)
-    produtos: List[ItemCarrinho]
+    produtos: List[ItemCarrinho] = []
     data_de_criacao: datetime.datetime = Field(default=datetime.datetime.now())
     entrega: Endereco = Field(default=None)
+
+
+class AbrirCarrinho(BaseModel):
+    cliente: EmailStr

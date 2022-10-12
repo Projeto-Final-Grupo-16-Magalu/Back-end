@@ -9,8 +9,11 @@ colecao = obter_colecao(COLECAO_CARRINHOS)
 
 async def cria_carrinho(carrinho: Carrinho):
     try:
-        await colecao.insert_one(carrinho.dict())
-        return carrinho
+        retorno_insercao = await colecao.insert_one(carrinho.dict())
+        if retorno_insercao.acknowledged:
+            carrinho = await pesquisa_carrinho_pelo_codigo(retorno_insercao.inserted_id)
+            return carrinho
+        return None
     except Exception as e:
         print(f'cria_carrinho.erro: {e}')
 
@@ -41,7 +44,7 @@ async def pesquisa_carrinho_pelo_codigo(id_carrinho):
         filtro = {
             "_id": id_carrinho
         }
-        carrinho = await colecao.find_one(filtro)
+        carrinho = await colecao.find_one(filtro, {'_id': 0} )
         return carrinho
     except Exception as e:
         print(f'pesquisa_carrinho_pelo_codigo.erro: {e}')
@@ -96,17 +99,18 @@ async def cria_item_carrinho(email_cliente: str, codigo_produto: int, quantidade
         filtro = {
             'cliente': email_cliente
         }
-        carrinho = await colecao.find_one(filtro)
+        carrinho = await pesquisa_carrinho_aberto_cliente(email_cliente)
         novo_item = await cria_item(quantidade, codigo_produto)
         atualizacao_carrinho = {'$set': {
             'quantidade_produtos': int(carrinho['quantidade_produtos']) + quantidade,
-            'valor_total': float(carrinho['valor_total']) + float(novo_item['valor'])
+            'valor_total': float(carrinho['valor_total']) + float(novo_item['valor']*quantidade)
         },
             '$push': {
                 'produtos': novo_item
             }}
         await colecao.update_many(filtro, atualizacao_carrinho)
-        return carrinho
+        carrinho_atualizado = await pesquisa_carrinho_pelo_codigo(carrinho['_id'])
+        return carrinho_atualizado
 
     except Exception as e:
         print(f'cria_item_carrinho.erro: {e}')
@@ -115,15 +119,18 @@ async def atualiza_item_carrinho(email_cliente: str, codigo_produto: int, quanti
     try:
         filtro = {
             'cliente': email_cliente,
+            'aberto': True,
             'produtos': {'$elemMatch': {'produto': codigo_produto}}
         }
         carrinho = await colecao.find_one(filtro)
         atualizacao = {'$set': {
             'produtos.$.quantidade': carrinho['produtos'][0]['quantidade'] + quantidade,
-            'produtos.$.valor': carrinho['produtos'][0]['valor'] * quantidade
+            'produtos.$.valor': carrinho['produtos'][0]['valor'] * carrinho['produtos'][0]['quantidade']
         }}
         await colecao.update_one(filtro, atualizacao, upsert=True)
-        return carrinho
+
+        carrinho_atualizado = await pesquisa_carrinho_pelo_codigo(carrinho['_id'])
+        return carrinho_atualizado
 
     except Exception as e:
         print(f'atualiza_item_carrinho.erro: {e}')
@@ -141,7 +148,8 @@ async def fecha_carrinho(id_carrinho):
         )
 
         if atualizacao.modified_count:
-            return {"message": "Carrinho fechado com sucesso"}
+            carrinho_atualizado = await pesquisa_carrinho_pelo_codigo(id_carrinho)
+            return carrinho_atualizado
 
         return None
 
