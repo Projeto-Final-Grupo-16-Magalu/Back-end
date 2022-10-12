@@ -25,7 +25,6 @@ async def validar_produto(novo_produto: Produto):
 
 # ATUALIZAR
 async def atualizar_por_codigo(codigo: str, produto: AtualizacaoProduto):
-    
         produto_atualizado = await produtos_persistencia.atualizar_por_codigo(codigo, produto)
             
         if produto_atualizado == None:
@@ -45,9 +44,17 @@ async def validar_id_produto(id: str):
         raise NaoEncontradoExcecao("Não há  produto com este id")
     return produto
 
-
-
-
+# PESQUISAR NOME
+async def pesquisar_pelo_nome(nome: str):
+        produto = await produtos_persistencia.pesquisar_pelo_nome(nome)
+            
+        if produto == None:
+            logger.warning(f'Produto não encontrado : nome={nome}')
+            # Not found
+            raise HTTPException(status_code=404, detail=f'Produto não encontrado')   
+        
+        logger.info(f'produto={produto}')
+        return produto
 
 
 #DELETAR
