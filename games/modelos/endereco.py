@@ -3,7 +3,6 @@ from pydantic.networks import EmailStr
 from pydantic import BaseModel, Field
 from typing import List
 
-from games.modelos.cliente import Cliente
 
 class Endereco(BaseModel):
     nome: str = Field(max_length=10)

@@ -135,10 +135,31 @@ async def atualiza_item_carrinho(email_cliente: str, codigo_produto: int, quanti
         logger.exception(e)
 
 
-async def fecha_carrinho(id_carrinho):
+async def remove_item_carrinho(email_cliente: str, codigo_produto: int):
+    try:
+        filtro = {
+            'cliente': email_cliente,
+            'aberto': True,
+
+        }
+        atualizacao = {
+            '$pull':{
+            'produtos':{'produto': codigo_produto}
+        }}
+        carrinho = await colecao.update_one(filtro, atualizacao)
+        carrinho_atualizado = await pesquisa_carrinho_pelo_codigo(carrinho.updated_id)
+        return carrinho_atualizado
+
+    except Exception as e:
+        logger.exception(e)
+
+
+
+async def fecha_carrinho(id_carrinho, endereco_entrega):
     try:
         dados = {
-            "aberto": False
+            "aberto": False,
+            "entrega": endereco_entrega
         }
 
         atualizacao = await colecao.update_one(

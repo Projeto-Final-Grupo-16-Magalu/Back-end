@@ -16,7 +16,7 @@ async def pesquisar_enderecos_por_email(email: EmailStr) -> Optional[dict]:
         return enderecos
     except Exception as error:
         logger.exception(error)
-        
+
 async def pesquisar_enderecos_do_cliente(email: EmailStr) -> Optional[dict]:
     try:
         filtro = {
@@ -51,7 +51,7 @@ async def validar_lista_enderecos(email_cliente, endereco: Endereco):
     try:
         filtro = {
             'cliente': email_cliente,
-            'enderecos': { '$elemMatch': 
+            'enderecos': { '$elemMatch':
                             {'cep': endereco['cep'],
                              'numero': endereco['numero']
                             }
@@ -74,7 +74,7 @@ async def pesquisar_enderecos(endereco: Endereco) -> Optional[dict]:
         return endereco_pesquisado
     except Exception as error:
         logger.exception(error)
-        
+
 async def inserir_novo_endereco(novo_endereco: dict) -> dict:
     try:
         colecao = obter_colecao(COLECAO_ENDERECOS)
@@ -82,7 +82,7 @@ async def inserir_novo_endereco(novo_endereco: dict) -> dict:
         return novo_endereco
     except Exception as error:
         logger.exception(error)
-        
+
 async def cadastrar_novo_endereco(email: EmailStr, novo_endereco: dict) -> dict:
     try:
         endereco = EnderecosCliente(cliente=email, enderecos=[Endereco(**novo_endereco)])
@@ -119,5 +119,32 @@ async def cadastrar_documento_cliente(email: EmailStr):
 
 async def pesquisar_endereco_entrega():
     ...
+
+
+
+
+# colecao = obter_colecao(COLECAO_ENDERECOS)
+
+
+# async def pesquisar_endereço_por_email(email: EmailStr) -> Optional[dict]:
+#     filtro = {
+#         'cliente': email
+#     }
+#     enderecos = await colecao.find_one(filtro)
+#     return enderecos
+
+
+# async def inserir_um_novo_endereco(email: EmailStr, novo_endereco: dict) -> dict:
+#     filtro = {
+#         'cliente': email
+#     }
+#     atualizacao = {'$push': {'enderecos': novo_endereco}}
+#     await colecao.insert_one(filtro, atualizacao)
+#     enderecos = await colecao.find_one(filtro)
+#     return enderecos
+
+# async def define_endereco_entrega(email: EmailStr):
+#     endereco = await pesquisar_endereço_por_email(email)
+#     return endereco
 
 
