@@ -1,5 +1,3 @@
-
-
 from types import CellType
 from typing import List, Optional
 from pydantic.networks import EmailStr
@@ -53,3 +51,9 @@ async def remover_endereco_do_cliente_por_id(email: Emailstr, id_endereco: _id) 
         return enderecos
     except Exception as error:
         print(f'remover_endereco.erro: {e}')
+
+
+async def pesquisar_endereco_entrega():
+    ...
+
+
