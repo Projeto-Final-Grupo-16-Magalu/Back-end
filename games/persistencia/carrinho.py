@@ -1,8 +1,7 @@
-from pydantic import EmailStr
 from games.configuracoes import COLECAO_CARRINHOS, COLECAO_PRODUTOS
 from games.servidor.database import obter_colecao
-
 from games.modelos.carrinho import Carrinho
+from games.logs import logger
 
 
 colecao = obter_colecao(COLECAO_CARRINHOS)
@@ -15,7 +14,7 @@ async def cria_carrinho(carrinho: Carrinho):
             return carrinho
         return None
     except Exception as e:
-        print(f'cria_carrinho.erro: {e}')
+        logger.exception(e)
 
 async def pesquisa_carrinhos(cliente_email):
     try:
@@ -25,7 +24,7 @@ async def pesquisa_carrinhos(cliente_email):
         carrinhos = await colecao.find(filtro)
         return carrinhos
     except Exception as e:
-        print(f'pesquisa_carrinhos.erro: {e}')
+        logger.exception(e)
 
 
 async def pesquisa_carrinho_aberto_cliente(cliente_email):
@@ -37,7 +36,7 @@ async def pesquisa_carrinho_aberto_cliente(cliente_email):
         carrinho = await colecao.find_one(filtro)
         return carrinho
     except Exception as e:
-        print(f'pesquisa_carrinho_aberto_cliente.erro: {e}')
+        logger.exception(e)
 
 async def pesquisa_carrinho_pelo_codigo(id_carrinho):
     try:
@@ -47,13 +46,13 @@ async def pesquisa_carrinho_pelo_codigo(id_carrinho):
         carrinho = await colecao.find_one(filtro, {'_id': 0} )
         return carrinho
     except Exception as e:
-        print(f'pesquisa_carrinho_pelo_codigo.erro: {e}')
+        logger.exception(e)
 
 async def pesquisa_carrinhos_fechado_cliente(email_cliente):
     try:
         ...
     except Exception as e:
-        print(f'pesquisa_carrinhos_fechado_cliente.erro: {e}')
+        logger.exception(e)
 
 async def pesquisa_carrinhos(skip=1, limit=10):
     try:
@@ -63,7 +62,7 @@ async def pesquisa_carrinhos(skip=1, limit=10):
         return clientes
 
     except Exception as e:
-        print(f'pesquisa_carrinhos.erro: {e}')
+        logger.exception(e)
 
 
 async def pesquisa_item_carrinho(email_cliente, codigo_produto):
@@ -74,7 +73,7 @@ async def pesquisa_item_carrinho(email_cliente, codigo_produto):
         produto_existente = await colecao.find_one(filtro)
         return produto_existente
     except Exception as e:
-        print(f'pesquisa_item_carrinho.erro: {e}')
+        logger.exception(e)
 
 
 async def cria_item(quantidade: int, codigo: int):
@@ -91,7 +90,7 @@ async def cria_item(quantidade: int, codigo: int):
         return novo_item
 
     except Exception as e:
-        print(f'cria_item.erro: {e}')
+        logger.exception(e)
 
 
 async def cria_item_carrinho(email_cliente: str, codigo_produto: int, quantidade: int):
@@ -113,7 +112,7 @@ async def cria_item_carrinho(email_cliente: str, codigo_produto: int, quantidade
         return carrinho_atualizado
 
     except Exception as e:
-        print(f'cria_item_carrinho.erro: {e}')
+        logger.exception(e)
 
 async def atualiza_item_carrinho(email_cliente: str, codigo_produto: int, quantidade: int):
     try:
@@ -133,7 +132,7 @@ async def atualiza_item_carrinho(email_cliente: str, codigo_produto: int, quanti
         return carrinho_atualizado
 
     except Exception as e:
-        print(f'atualiza_item_carrinho.erro: {e}')
+        logger.exception(e)
 
 
 async def fecha_carrinho(id_carrinho):
@@ -154,11 +153,11 @@ async def fecha_carrinho(id_carrinho):
         return None
 
     except Exception as e:
-        print(f'fecha_carrinho.erro: {e}')
+        logger.exception(e)
 
 async def deleta_carrinho(id_carrinho):
     try:
         ...
 
     except Exception as e:
-        print(f'deleta_carrinho.erro: {e}')
+        logger.exception(e)
