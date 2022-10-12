@@ -29,4 +29,13 @@ Pesquisar endereços de um cliente. Para pesquisar endereço pelo email do clien
 
 Se a pesquisa for realizada com *sucesso* a API retornará sucesso (código HTTP 200) e </br>
 e no corpo da resposta uma lista de endereços do cliente.</br>
+Se o cadastro apresentar *erro* a API retornará uma mensagem informando o tipo de erro.</br>"""
+
+DESCRICAO_DELETAR_ENDERECO = """
+Deletar o endereço de um cliente. Para deletar o endereço pelo email do cliente:</br>
+<li>-Passar o email do cliente</br>
+<li>-Passar o id do endereço que se quer deletar</br>
+
+Se a remoçao for realizada com *sucesso* a API retornará sucesso (código HTTP 200) e </br>
+e no corpo da resposta uma mensagem ("Seu endereço foi removido com sucesso!).</br>
 Se o cadastro apresentar *erro* a API retornará uma mensagem informando o tipo de erro.</br>""" 

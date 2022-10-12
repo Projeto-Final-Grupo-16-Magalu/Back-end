@@ -2,14 +2,14 @@ from typing import List, Optional
 from pydantic import EmailStr
 
 import games.persistencia.clientes as clientes_persistencia
-from games.modelos.cliente import (Cliente)
-from games.regras.excecoes import (NaoEncontradoExcecao, OutroRegistroExcecao)
+from games.modelos.cliente import Cliente
+from games.regras.excecoes import NaoEncontradoExcecao, OutroRegistroExcecao
 
 
 async def pesquisar_por_email(email: EmailStr, lanca_excecao_se_nao_encotrado: bool = False) -> Optional[dict]:
    clientes = await clientes_persistencia.pesquisar_pelo_email(email)
    if not clientes and lanca_excecao_se_nao_encotrado:
-        raise NaoEncontradoExcecao("Cliente não encontrada")
+        raise NaoEncontradoExcecao("Cliente não encontrado")
    return clientes
 
 

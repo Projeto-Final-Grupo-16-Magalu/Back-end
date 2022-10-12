@@ -19,7 +19,7 @@ async def pesquisa_enderecos_pelo_email_cliente(colecao, email_cliente):
     except Exception as e:
         print(f'pesquisa_enderecos_pelo_email_cliente.erro: {e}')
 
-async def pesqusa_enderecos(colecao, skip, limit):
+async def pesquisa_enderecos(colecao, skip, limit):
     try:
         ## Realiza busca paginada de todos os endereços cadastros no banco
         cursor = colecao.find().skip(int(skip)).limit(int(limit))

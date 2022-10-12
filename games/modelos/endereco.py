@@ -1,3 +1,4 @@
+from pydantic.networks import EmailStr
 from pydantic import BaseModel, Field
 from typing import List
 
@@ -15,7 +16,7 @@ class Endereco(BaseModel):
 
 
 class EnderecosCliente(BaseModel):
-    cliente: Cliente
+    cliente: EmailStr
     enderecos: List[Endereco] = []
 
 #Modelo para erro: endereço já cadastrado para esse usuário
