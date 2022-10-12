@@ -7,11 +7,14 @@ from games.regras.excecoes import NaoEncontradoExcecao, OutroRegistroExcecao
 from games.logs import logger
 
 
+
 async def pesquisar_por_email(email: EmailStr, lanca_excecao_se_nao_encotrado: bool = False) -> Optional[dict]:
    clientes = await clientes_persistencia.pesquisar_pelo_email(email)
    if not clientes and lanca_excecao_se_nao_encotrado:
+        raise NaoEncontradoExcecao("Cliente não encontrado")
         logger.warning(f'Cliente não encontrada: {email}')
         raise NaoEncontradoExcecao("Cliente não encontrada")
+
    return clientes
 
 

@@ -36,8 +36,16 @@ async def criar_novo_cliente(cliente: Cliente):
 # Pesquisa cliente pelo email.
 @rota_clientes.get(
     "/{email}",
-    
+    summary= "Pesquisa de cliente por email",
+    description= DESCRICAO_PESQUISAR_CLIENTE,
+    status_code=status.HTTP_201_CREATED,
     response_model = Cliente
+    responses = {
+        status.HTTP_404_GONE:{
+            "description": "Cliente não encontrado",
+            "model": ErroEnderecoNaoEncontrado}    
+        }
+    
 )
 async def pesquisar_cliente_pelo_email(email: str):
     cliente = await clientes_regras.pesquisar_por_email(email, True)
