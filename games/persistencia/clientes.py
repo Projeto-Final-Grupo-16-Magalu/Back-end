@@ -1,6 +1,7 @@
 from typing import List, Optional
 from pydantic.networks import EmailStr
 
+import games.persistencia.enderecos as persistencia_enderecos
 from games.servidor.database import obter_colecao
 from games.configuracoes import COLECAO_CLIENTES
 from games.logs import logger
@@ -46,5 +47,7 @@ async def inserir_um_novo_cliente(novo_cliente: dict) -> dict:
     resultado_insercao = await colecao.insert_one(novo_cliente)
     if resultado_insercao.acknowledged:
         cliente = await pesquisar_pelo_id(resultado_insercao.inserted_id)
+        # Cria um documento na coleção ENDERECOS_CLIENTE com lista de endereços vazia
+        await persistencia_enderecos.cadastrar_documento_cliente(novo_cliente['email'])
         return cliente
     return None

@@ -12,7 +12,6 @@ rota_clientes = APIRouter(
     tags = ["Clientes"]
 )
 
-
 # Cria novo cliente
 @rota_clientes.post(
     "/",

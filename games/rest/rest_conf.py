@@ -5,6 +5,7 @@ from games.rest.principal import rota_principal
 from games.rest.produto import rota_produto
 from games.rest.carrinho import rota_carrinho
 from games.rest.clientes import rota_clientes
+from games.rest.enderecos import rota_enderecos
 
 
 def configurar_rotas(app: FastAPI):
@@ -12,6 +13,7 @@ def configurar_rotas(app: FastAPI):
     app.include_router(rota_produto)
     app.include_router(rota_carrinho)
     app.include_router(rota_clientes)
+    app.include_router(rota_enderecos)
 
 ############  Meninas, essa conf do Cors é para receber o front se houver tempo ##################
 def configurar_api_rest(app: FastAPI):

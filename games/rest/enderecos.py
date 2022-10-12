@@ -15,11 +15,11 @@ rota_enderecos = APIRouter(
 
 # Cadastrar Endereço
 @rota_enderecos.post(
-    "{email}",
+    "/{email}",
     summary= "Cadastro de novo endereço",
     description= DESCRICAO_CADASTRAR_ENDERECO,
     status_code=status.HTTP_201_CREATED,
-    response_model= Endereco, 
+    response_model= EnderecosCliente, 
     responses = {
         status.HTTP_409_CONFLICT:{
             "description": "Esse endereço já foi cadastrado para esse usuário",
@@ -45,7 +45,7 @@ async def inserir_novo_endereco(email: EmailStr, endereco: Endereco):
         }
 )
 async def pesquisar_endereco_por_email(email: EmailStr):
-    enderecos = await enderecos_regras.pesquisar_endereco_por_email(email)
+    enderecos = await enderecos_regras.pesquisar_enderecos_por_email(email)
     return enderecos
 
 #Deleta endereço pelo id.
