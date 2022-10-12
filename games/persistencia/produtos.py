@@ -1,6 +1,5 @@
 from bson import ObjectId
 from typing import Optional
-
 from games.modelos.produto import AtualizacaoProduto
 from games.servidor.database import obter_colecao
 from games.configuracoes import COLECAO_PRODUTOS

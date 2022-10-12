@@ -1,5 +1,4 @@
 from fastapi import HTTPException
-
 import games.persistencia.produtos as produtos_persistencia
 from games.modelos.produto import AtualizacaoProduto, Produto
 from games.logs import logger
