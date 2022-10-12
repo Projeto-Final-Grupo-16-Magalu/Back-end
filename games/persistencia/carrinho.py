@@ -16,10 +16,10 @@ async def cria_carrinho(carrinho: Carrinho):
     except Exception as e:
         logger.exception(e)
 
-async def pesquisa_carrinhos(cliente_email):
+async def pesquisa_carrinhos(email_cliente):
     try:
         filtro = {
-            "cliente": cliente_email
+            "cliente": email_cliente
         }
         carrinhos = await colecao.find(filtro)
         return carrinhos
@@ -27,13 +27,13 @@ async def pesquisa_carrinhos(cliente_email):
         logger.exception(e)
 
 
-async def pesquisa_carrinho_aberto_cliente(cliente_email):
+async def pesquisa_carrinho_aberto_cliente(email_cliente):
     try:
         filtro = {
-            "cliente": cliente_email,
+            "cliente": email_cliente,
             "aberto": True
         }
-        carrinho = await colecao.find_one(filtro)
+        carrinho = await colecao.find_one(filtro, {'_id': 0})
         return carrinho
     except Exception as e:
         logger.exception(e)
@@ -48,9 +48,26 @@ async def pesquisa_carrinho_pelo_codigo(id_carrinho):
     except Exception as e:
         logger.exception(e)
 
-async def pesquisa_carrinhos_fechado_cliente(email_cliente):
+async def pesquisa_carrinhos_fechado_cliente(email_cliente, skip=1, limit=10):
     try:
-        ...
+        filtro = {
+            "cliente": email_cliente,
+            "aberto": False
+        }
+        cursor = colecao.find(filtro, {'_id': 0}).skip(int(skip)).limit(int(limit))
+        carrinhos = await cursor.to_list(length=int(limit))
+        return carrinhos
+    except Exception as e:
+        logger.exception(e)
+
+async def pesquisa_carrinhos_fechados(skip=1, limit=100):
+    try:
+        filtro = {
+            "aberto": False
+        }
+        cursor = colecao.find(filtro, {'_id': 0}).skip(int(skip)).limit(int(limit))
+        carrinhos = await cursor.to_list(length=int(limit))
+        return carrinhos
     except Exception as e:
         logger.exception(e)
 
