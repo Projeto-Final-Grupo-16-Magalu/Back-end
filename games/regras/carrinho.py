@@ -1,3 +1,4 @@
+from fastapi import HTTPException
 from typing import List
 from pydantic import EmailStr
 
@@ -7,7 +8,6 @@ import games.persistencia.enderecos as enderecos_persistencia
 import games.persistencia.produtos as produtos_persistencia
 from games.modelos.carrinho import Carrinho, ItemCarrinho, AbrirCarrinho
 from games.modelos.produto import Produto
-from games.regras.excecoes import NaoEncontradoExcecao, OutroRegistroExcecao
 from games.logs import logger
 
 
@@ -17,7 +17,8 @@ async def criar_novo_carrinho(carrinho: AbrirCarrinho) -> Carrinho:
     logger.info(f'email_cliente={carrinho.cliente} - cliente={cliente}')
     # Caso o cliente não seja encontrado, lança exceção
     if cliente == None:
-        raise NaoEncontradoExcecao('Cliente não cadastrado.')
+        # Not found
+        raise HTTPException(status_code=404, detail=f'Cliente não encontrado') 
 
     # Caso o cliente exista, valida se já existe carrinho aberto para esse cliente
     await verifica_carrinho_aberto(carrinho.cliente)
@@ -32,7 +33,8 @@ async def criar_novo_carrinho(carrinho: AbrirCarrinho) -> Carrinho:
 async def verifica_quantidade_produto(item_carrinho: ItemCarrinho, produto: Produto):
     if produto['quantidade_em_estoque'] < item_carrinho.quantidade:
         logger.warning(f'Estoque insuficiente - produto={produto}')
-        raise OutroRegistroExcecao('Não há produtos suficiente em estoque.')
+        # Precondition failed
+        raise HTTPException(status_code=412, detail=f'Estoque insuficiente') 
 
     await produtos_persistencia.atualiza_produto(produto['codigo'], item_carrinho.quantidade)
 
@@ -53,7 +55,8 @@ async def pesquisar_por_todos_carrinhos() -> List[dict]:
     todos_carrinhos = await carrinho_persistencia.pesquisa_carrinhos()
     if not todos_carrinhos:
         logger.warning('Não há carrinho cadastrado')
-        raise NaoEncontradoExcecao('Não há carrinho cadastrado.')
+        # Not found
+        raise HTTPException(status_code=404, detail=f'Carrinho não encontrado') 
 
     return todos_carrinhos
 
@@ -94,7 +97,9 @@ async def remove_item_carrinho(email_cliente, codigo_produto):
     produto_existente = await carrinho_persistencia.pesquisa_item_carrinho(email_cliente, codigo_produto)
     # Se não há item no carrinho:
     if produto_existente == None:
-        raise NaoEncontradoExcecao('O produto informado não consta neste carrinho.')
+        logger.warning(f'Produto não encontrado={produto_existente}')
+        # Not found
+        raise HTTPException(status_code=404, detail=f'Produto não encontrado') 
 
     # Se há item no carrinho, remove item
     carrinho_atualizado = await carrinho_persistencia.remove_item_carrinho(email_cliente, codigo_produto)
@@ -109,12 +114,13 @@ async def fechar_carrinho(email_cliente: EmailStr):
     # Caso o cliente não seja encontrado, lança exceção
     if cliente == None:
         logger.warning(f'Cliente não cadastrado={email_cliente}')
-        raise NaoEncontradoExcecao('Cliente não cadastrado.')
+        # Not found
+        raise HTTPException(status_code=404, detail=f'Cliente não cadastrado') 
 
     # Caso o cliente exista, verifica se já existe carrinho aberto para esse cliente
     carrinho = await verifica_carrinho_aberto(email_cliente)
-    #pesquisar_endereco_entrega
-    endereco_entrega = await enderecos_persistencia.define_endereco_entrega(email_cliente)
+    # pesquisar_endereco_entrega
+    endereco_entrega = await enderecos_persistencia.pesquisar_endereco_entrega(email_cliente)
     # Fecha carrinho
     carrinho = await carrinho_persistencia.fecha_carrinho(carrinho['_id'], endereco_entrega)
     logger.info(f'carrinho={carrinho}')
