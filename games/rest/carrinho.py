@@ -1,3 +1,4 @@
+import email
 from fastapi import APIRouter
 from pydantic import EmailStr
 
@@ -25,7 +26,7 @@ async def adicionar_item_carrinho(email_cliente: str, item_carrinho: ItemCarrinh
     carrinho_atualizado = await carrinho_regras.adiciona_item_carrinho(email_cliente, item_carrinho)
     return carrinho_atualizado
 
-
+# Remove um item do carrinho
 @rota_carrinho.put(
     "/remover_item"
     )
@@ -48,11 +49,27 @@ async def remover_carrinho(email_cliente: EmailStr):
 # Consulta carrinho de compras aberto de um cliente
 @rota_carrinho.get("/{email_cliente}")
 async def pesquisar_carrinho(email_cliente: EmailStr):
-    return(f'pesquisar_carrinho: cliente: {email_cliente}')
+    carrinho = await carrinho_regras.pesquisar_carrinho_aberto_cliente(email_cliente)
+    return carrinho
 
 # Consulta os carrinhos de compra fechados de um cliente (Opcional)
-# Consulta os produtos e suas quantidades em carrinhos fechados (Opcional)
-# Consulta quantos carrinhos fechados os clientes possuem (Opcional)
 @rota_carrinho.get("/fechados/{email_cliente}")
 async def pesquisar_carrinhos_fechados(email_cliente: EmailStr):
-    return(f'pesquisar_carrinhos_fechados: cliente: {email_cliente}')
+    carrinhos = await carrinho_regras.pesquisar_carrinhos_fechados_cliente(email_cliente)
+    return carrinhos
+
+# Consulta os produtos e suas quantidades em carrinhos fechados (Opcional)
+@rota_carrinho.get("/fechados/todos/{quantidade}")
+async def pesquisar_carrinhos_fechados(quantidade: int):
+    carrinhos = await carrinho_regras.pesquisar_carrinhos_fechados(quantidade)
+    return carrinhos
+
+# Consulta quantos carrinhos fechados os clientes possuem (Opcional)
+@rota_carrinho.get("/fechados/soma/{email_cliente}")
+async def pesquisar_carrinhos_fechados(email_cliente: EmailStr):
+    carrinhos = await carrinho_regras.pesquisar_carrinhos_fechados_cliente(email_cliente)
+    retorno = {
+        "cliente": email_cliente,
+        "quantidade_carrinhos_fechados": len(carrinhos)
+    }
+    return retorno

@@ -126,3 +126,33 @@ async def fechar_carrinho(email_cliente: EmailStr):
     logger.info(f'carrinho={carrinho}')
     # Retorna carrinho atualizado
     return carrinho
+
+# Pesquisa carrinho abertos de um cliente
+async def pesquisar_carrinho_aberto_cliente(email_cliente: EmailStr):
+    carrinho = await carrinho_persistencia.pesquisa_carrinho_aberto_cliente(email_cliente)
+    if carrinho == None:
+        logger.warning(f'Não existe carrinho aberto para o cliente={email_cliente}')
+        # Not found
+        raise HTTPException(status_code=404, detail=f'Não existe carrinho aberto para o cliente')
+    logger.info(f'cliente={email_cliente} : carrinho={carrinho}')     
+    return carrinho
+
+# Pesquisa carrinhos fechados de um cliente
+async def pesquisar_carrinhos_fechados_cliente(email_cliente: EmailStr):
+    carrinhos = await carrinho_persistencia.pesquisa_carrinhos_fechado_cliente(email_cliente)
+    if carrinhos == None:
+        logger.warning(f'Não existem carrinhos fechados para o cliente={email_cliente}')
+        # Not found
+        raise HTTPException(status_code=404, detail=f'Não existem carrinhos fechados para o cliente')
+    logger.info(f'cliente={email_cliente} : carrinhos={carrinhos}')     
+    return carrinhos
+
+# Pesquisa carrinhos fechados
+async def pesquisar_carrinhos_fechados(quantidade: int):
+    carrinhos = await carrinho_persistencia.pesquisa_carrinhos_fechados(limit=quantidade)
+    if carrinhos == None:
+        logger.warning(f'Não existem carrinhos fechados')
+        # Not found
+        raise HTTPException(status_code=404, detail=f'Não existem carrinhos fechados')
+    logger.info(f'carrinhos={carrinhos}')     
+    return carrinhos
