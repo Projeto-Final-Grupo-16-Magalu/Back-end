@@ -73,7 +73,7 @@ async def pesquisar_pelo_nome(nome: str) -> Optional[dict]:
     filtro = {
         'nome': nome
     }
-    produto = await colecao.find_one(filtro, {'_id': 0} )
+    produto = await colecao.find_one(filtro, {'_id': 0})
     return produto
 
 

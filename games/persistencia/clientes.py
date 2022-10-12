@@ -1,7 +1,6 @@
 from typing import List, Optional
 from pydantic.networks import EmailStr
 
-from games.modelos.cliente import Cliente
 from games.servidor.database import obter_colecao
 from games.configuracoes import COLECAO_CLIENTES
 from games.logs import logger
@@ -24,9 +23,9 @@ async def pesquisar_pelo_id(id_cliente) -> Optional[dict]:
     logger.info(cliente)
     return cliente
 
-async def pesquisar_todos() -> List[dict]:
+async def pesquisar_clientes() -> List[dict]:
     filtro = {}
-    cursor_pesquisa = colecao.find(filtro)
+    cursor_pesquisa = colecao.find(filtro,  {'_id': 0})
     lista_todos = [
         clientes
         async for clientes in cursor_pesquisa

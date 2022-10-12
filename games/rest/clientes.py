@@ -52,9 +52,8 @@ async def pesquisar_cliente_pelo_email(email: str):
 # Pesquisa por todos os clientes (sem um filtro)
 @rota_clientes.get(
     "/",
-    
      response_model=List[Cliente] 
 )
 async def pesquisar_todos_os_clientes() -> List[Cliente]:  
-    clientes = await clientes_regras.pesquisar_por_todos()
+    clientes = await clientes_regras.pesquisar_clientes()
     return clientes
