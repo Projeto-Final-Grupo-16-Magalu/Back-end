@@ -1,10 +1,11 @@
 from games.configuracoes import COLECAO_CARRINHOS, COLECAO_PRODUTOS
-from games.servidor.database import obter_colecao
-from games.modelos.carrinho import Carrinho
 from games.logs import logger
+from games.modelos.carrinho import Carrinho
+from games.servidor.database import obter_colecao
 
 
 colecao = obter_colecao(COLECAO_CARRINHOS)
+
 
 async def cria_carrinho(carrinho: Carrinho):
     try:
@@ -16,10 +17,11 @@ async def cria_carrinho(carrinho: Carrinho):
     except Exception as e:
         logger.exception(e)
 
+
 async def pesquisa_carrinhos(email_cliente):
     try:
         filtro = {
-            "cliente": email_cliente
+            'cliente': email_cliente
         }
         carrinhos = await colecao.find(filtro)
         return carrinhos
@@ -30,40 +32,43 @@ async def pesquisa_carrinhos(email_cliente):
 async def pesquisa_carrinho_aberto_cliente(email_cliente):
     try:
         filtro = {
-            "cliente": email_cliente,
-            "aberto": True
+            'cliente': email_cliente,
+            'aberto': True
         }
         carrinho = await colecao.find_one(filtro, {'_id': 0})
         return carrinho
     except Exception as e:
         logger.exception(e)
 
+
 async def pesquisa_carrinho_pelo_codigo(id_carrinho):
     try:
         filtro = {
-            "_id": id_carrinho
+            '_id': id_carrinho
         }
         carrinho = await colecao.find_one(filtro, {'_id': 0} )
         return carrinho
     except Exception as e:
         logger.exception(e)
 
+
 async def pesquisa_carrinhos_fechado_cliente(email_cliente, skip=1, limit=10):
     try:
         filtro = {
-            "cliente": email_cliente,
-            "aberto": False
+            'cliente': email_cliente,
+            'aberto': False
         }
         cursor = colecao.find(filtro, {'_id': 0}).skip(int(skip)).limit(int(limit))
         carrinhos = await cursor.to_list(length=int(limit))
         return carrinhos
     except Exception as e:
         logger.exception(e)
+
 
 async def pesquisa_carrinhos_fechados(skip=1, limit=100):
     try:
         filtro = {
-            "aberto": False
+            'aberto': False
         }
         cursor = colecao.find(filtro, {'_id': 0}).skip(int(skip)).limit(int(limit))
         carrinhos = await cursor.to_list(length=int(limit))
@@ -71,9 +76,10 @@ async def pesquisa_carrinhos_fechados(skip=1, limit=100):
     except Exception as e:
         logger.exception(e)
 
+
 async def pesquisa_carrinhos(skip=1, limit=10):
     try:
-        ## Realiza busca paginada de todos os carrinhos cadastros no banco
+        # Realiza busca paginada de todos os carrinhos cadastros no banco
         cursor = colecao.find().skip(int(skip)).limit(int(limit))
         clientes = await cursor.to_list(length=int(limit))
         return clientes
@@ -96,7 +102,7 @@ async def pesquisa_item_carrinho(email_cliente, codigo_produto):
 async def cria_item(quantidade: int, codigo: int):
     try:
         filtro = {
-            "codigo": codigo
+            'codigo': codigo
         }
         novo_produto = await obter_colecao(COLECAO_PRODUTOS).find_one(filtro)
         novo_item = {
@@ -118,8 +124,10 @@ async def cria_item_carrinho(email_cliente: str, codigo_produto: int, quantidade
         carrinho = await pesquisa_carrinho_aberto_cliente(email_cliente)
         novo_item = await cria_item(quantidade, codigo_produto)
         atualizacao_carrinho = {'$set': {
-            'quantidade_produtos': int(carrinho['quantidade_produtos']) + quantidade,
-            'valor_total': float(carrinho['valor_total']) + float(novo_item['valor']*quantidade)
+            'quantidade_produtos':
+                int(carrinho['quantidade_produtos']) + quantidade,
+            'valor_total':
+                float(carrinho['valor_total']) + float(novo_item['valor']*quantidade)
         },
             '$push': {
                 'produtos': novo_item
@@ -131,6 +139,7 @@ async def cria_item_carrinho(email_cliente: str, codigo_produto: int, quantidade
     except Exception as e:
         logger.exception(e)
 
+
 async def atualiza_item_carrinho(email_cliente: str, codigo_produto: int, quantidade: int):
     try:
         filtro = {
@@ -140,8 +149,10 @@ async def atualiza_item_carrinho(email_cliente: str, codigo_produto: int, quanti
         }
         carrinho = await colecao.find_one(filtro)
         atualizacao = {'$set': {
-            'produtos.$.quantidade': carrinho['produtos'][0]['quantidade'] + quantidade,
-            'produtos.$.valor': carrinho['produtos'][0]['valor'] * carrinho['produtos'][0]['quantidade']
+            'produtos.$.quantidade':
+                carrinho['produtos'][0]['quantidade'] + quantidade,
+            'produtos.$.valor':
+                carrinho['produtos'][0]['valor'] * carrinho['produtos'][0]['quantidade']
         }}
         await colecao.update_one(filtro, atualizacao, upsert=True)
 
@@ -171,12 +182,11 @@ async def remove_item_carrinho(email_cliente: str, codigo_produto: int):
         logger.exception(e)
 
 
-
 async def fecha_carrinho(id_carrinho, endereco_entrega):
     try:
         dados = {
-            "aberto": False,
-            "entrega": endereco_entrega
+            'aberto': False,
+            'entrega': endereco_entrega
         }
 
         atualizacao = await colecao.update_one(
@@ -189,13 +199,6 @@ async def fecha_carrinho(id_carrinho, endereco_entrega):
             return carrinho_atualizado
 
         return None
-
-    except Exception as e:
-        logger.exception(e)
-
-async def deleta_carrinho(id_carrinho):
-    try:
-        ...
 
     except Exception as e:
         logger.exception(e)

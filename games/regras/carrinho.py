@@ -1,14 +1,15 @@
 from fastapi import HTTPException
-from typing import List
 from pydantic import EmailStr
+from typing import List
 
-import games.persistencia.clientes as clientes_persistencia
-import games.persistencia.carrinho as carrinho_persistencia
-import games.persistencia.enderecos as enderecos_persistencia
-import games.persistencia.produtos as produtos_persistencia
+from games.logs import logger
 from games.modelos.carrinho import Carrinho, ItemCarrinho, AbrirCarrinho
 from games.modelos.produto import Produto
-from games.logs import logger
+
+import games.persistencia.carrinho as carrinho_persistencia
+import games.persistencia.clientes as clientes_persistencia
+import games.persistencia.enderecos as enderecos_persistencia
+import games.persistencia.produtos as produtos_persistencia
 
 
 async def criar_novo_carrinho(carrinho: AbrirCarrinho) -> Carrinho:
@@ -18,11 +19,9 @@ async def criar_novo_carrinho(carrinho: AbrirCarrinho) -> Carrinho:
     # Caso o cliente não seja encontrado, lança exceção
     if cliente == None:
         # Not found
-        raise HTTPException(status_code=404, detail=f'Cliente não encontrado') 
-
+        raise HTTPException(status_code=404, detail=f'Cliente não encontrado')
     # Caso o cliente exista, valida se já existe carrinho aberto para esse cliente
     await verifica_carrinho_aberto(carrinho.cliente)
-
     # Caso a validação acima seja atendida, criar novo carrinho
     await carrinho_persistencia.cria_carrinho(Carrinho(cliente=carrinho.cliente))
     logger.info(f'carrinho={carrinho}')
@@ -34,8 +33,7 @@ async def verifica_quantidade_produto(item_carrinho: ItemCarrinho, produto: Prod
     if produto['quantidade_em_estoque'] < item_carrinho.quantidade:
         logger.warning(f'Estoque insuficiente - produto={produto}')
         # Precondition failed
-        raise HTTPException(status_code=412, detail=f'Estoque insuficiente') 
-
+        raise HTTPException(status_code=412, detail=f'Estoque insuficiente')
     await produtos_persistencia.atualiza_produto(produto['codigo'], item_carrinho.quantidade)
 
 
@@ -56,8 +54,7 @@ async def pesquisar_por_todos_carrinhos() -> List[dict]:
     if not todos_carrinhos:
         logger.warning('Não há carrinho cadastrado')
         # Not found
-        raise HTTPException(status_code=404, detail=f'Carrinho não encontrado') 
-
+        raise HTTPException(status_code=404, detail=f'Carrinho não encontrado')
     return todos_carrinhos
 
 
@@ -67,7 +64,6 @@ async def verifica_carrinho_aberto(email_cliente: EmailStr):
     # Se o carrinho aberto existe, retorna carrinho
     if carrinho != None:
         return carrinho
-
     carrinho = await carrinho_persistencia.cria_carrinho(email_cliente)
     return carrinho
 
@@ -83,7 +79,6 @@ async def item_no_carrinho(email_cliente, codigo_produto, quantidade):
         # Cria item
         carrinho_atualizado = await carrinho_persistencia.cria_item_carrinho(email_cliente, codigo_produto, quantidade)
         return carrinho_atualizado
-
     # Se há item no carrinho, atualiza item
     carrinho_atualizado = await carrinho_persistencia.atualiza_item_carrinho(email_cliente, codigo_produto, quantidade)
     logger.info(f'carrinho={carrinho_atualizado}')
@@ -99,8 +94,7 @@ async def remove_item_carrinho(email_cliente, codigo_produto):
     if produto_existente == None:
         logger.warning(f'Produto não encontrado={produto_existente}')
         # Not found
-        raise HTTPException(status_code=404, detail=f'Produto não encontrado') 
-
+        raise HTTPException(status_code=404, detail=f'Produto não encontrado')
     # Se há item no carrinho, remove item
     carrinho_atualizado = await carrinho_persistencia.remove_item_carrinho(email_cliente, codigo_produto)
     logger.info(f'carrinho={carrinho_atualizado}')
@@ -115,8 +109,7 @@ async def fechar_carrinho(email_cliente: EmailStr):
     if cliente == None:
         logger.warning(f'Cliente não cadastrado={email_cliente}')
         # Not found
-        raise HTTPException(status_code=404, detail=f'Cliente não cadastrado') 
-
+        raise HTTPException(status_code=404, detail=f'Cliente não cadastrado')
     # Caso o cliente exista, verifica se já existe carrinho aberto para esse cliente
     carrinho = await verifica_carrinho_aberto(email_cliente)
     # pesquisar_endereco_entrega
@@ -127,6 +120,7 @@ async def fechar_carrinho(email_cliente: EmailStr):
     # Retorna carrinho atualizado
     return carrinho
 
+
 # Pesquisa carrinho abertos de um cliente
 async def pesquisar_carrinho_aberto_cliente(email_cliente: EmailStr):
     carrinho = await carrinho_persistencia.pesquisa_carrinho_aberto_cliente(email_cliente)
@@ -134,8 +128,9 @@ async def pesquisar_carrinho_aberto_cliente(email_cliente: EmailStr):
         logger.warning(f'Não existe carrinho aberto para o cliente={email_cliente}')
         # Not found
         raise HTTPException(status_code=404, detail=f'Não existe carrinho aberto para o cliente')
-    logger.info(f'cliente={email_cliente} : carrinho={carrinho}')     
+    logger.info(f'cliente={email_cliente} : carrinho={carrinho}')
     return carrinho
+
 
 # Pesquisa carrinhos fechados de um cliente
 async def pesquisar_carrinhos_fechados_cliente(email_cliente: EmailStr):
@@ -144,8 +139,9 @@ async def pesquisar_carrinhos_fechados_cliente(email_cliente: EmailStr):
         logger.warning(f'Não existem carrinhos fechados para o cliente={email_cliente}')
         # Not found
         raise HTTPException(status_code=404, detail=f'Não existem carrinhos fechados para o cliente')
-    logger.info(f'cliente={email_cliente} : carrinhos={carrinhos}')     
+    logger.info(f'cliente={email_cliente} : carrinhos={carrinhos}')
     return carrinhos
+
 
 # Pesquisa carrinhos fechados
 async def pesquisar_carrinhos_fechados(quantidade: int):
@@ -154,5 +150,5 @@ async def pesquisar_carrinhos_fechados(quantidade: int):
         logger.warning(f'Não existem carrinhos fechados')
         # Not found
         raise HTTPException(status_code=404, detail=f'Não existem carrinhos fechados')
-    logger.info(f'carrinhos={carrinhos}')     
+    logger.info(f'carrinhos={carrinhos}')
     return carrinhos
