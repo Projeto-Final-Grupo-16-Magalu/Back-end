@@ -65,7 +65,7 @@ async def pesquisar_pelo_codigo(codigo: int) -> Optional[dict]:
     filtro = {
         'codigo': codigo
     }
-    produto_pesquisado = await colecao.find_one(filtro)
+    produto_pesquisado = await colecao.find_one(filtro, {'_id': 0})
     return produto_pesquisado
 
 # 4.Pesquisar um produto pelo nome.
@@ -75,7 +75,6 @@ async def pesquisar_pelo_nome(nome: str) -> Optional[dict]:
     }
     produto = await colecao.find_one(filtro, {'_id': 0})
     return produto
-
 
 # 5.Remover um produto.
 # TODO: é necessário validar se existe o item em carrinhos abertos, remover e atualizar os dados do carrinho.

@@ -2,7 +2,6 @@ from fastapi import HTTPException
 
 import games.persistencia.produtos as produtos_persistencia
 from games.modelos.produto import AtualizacaoProduto, Produto
-from games.regras.excecoes import NaoEncontradoExcecao
 from games.logs import logger
 
 # VALIDAR A CRIAÇÃO DO PRODUTO
@@ -37,11 +36,21 @@ async def atualizar_por_codigo(codigo: str, produto: AtualizacaoProduto):
 
            
 # PESQUISAR ID
-async def validar_id_produto(id: str):
+async def pesquisar_pelo_id(id: str):
     produto = await produtos_persistencia.pesquisar_pelo_id(id)
     if produto == None:
         logger.warning(f'Produto não encontrado : id={id}')
-        raise NaoEncontradoExcecao("Não há  produto com este id")
+        # Not found
+        raise HTTPException(status_code=404, detail=f'Produto não encontrado')   
+    return produto
+
+# PESQUISAR CODIGO
+async def pesquisar_pelo_codigo(codigo: int):
+    produto = await produtos_persistencia.pesquisar_pelo_codigo(codigo)
+    if produto == None:
+        logger.warning(f'Produto não encontrado : codigo={codigo}')
+        # Not found
+        raise HTTPException(status_code=404, detail=f'Produto não encontrado')   
     return produto
 
 # PESQUISAR NOME
