@@ -1,9 +1,11 @@
 from typing import List
 from fastapi import APIRouter, status
+
+
 from games.modelos.endereco import Endereco
 import games.regras.clientes as clientes_regras
-from games.modelos.cliente import Cliente, ErroEmailJaCadastrado,ErroClienteNaoEncontrado
-from games.rest.documentacao import DESCRICAO_CADASTRAR_CLIENTE, DESCRICAO_PESQUISAR_CLIENTE_POR_EMAIL, DESCRICAO_PESQUISAR_CLIENTES                             
+from games.modelos.cliente import Cliente, ErroEmailJaCadastrado
+from games.rest.documentacao import DESCRICAO_CADASTRAR_CLIENTE, DESCRICAO_PESQUISAR_CLIENTE_POR_EMAIL, DESCRICAO_PESQUISAR_CLIENTES                          
 
 # Minha rota API de clientes
 rota_clientes = APIRouter(
@@ -64,5 +66,5 @@ async def pesquisar_cliente_pelo_email(email: str):
         }
 )
 async def pesquisar_todos_os_clientes() -> List[Cliente]:  
-    todos = await clientes_regras.pesquisar_por_todos()
-    return todos
+    clientes = await clientes_regras.pesquisar_por_todos()
+    return clientes
