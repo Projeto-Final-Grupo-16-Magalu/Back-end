@@ -17,12 +17,10 @@ async def criar_novo_produto(produto: Produto):
     novo_produto= await produto_regras.inserir_novo_produto(produto)
     return novo_produto
 
-
-
 # 2.Atualizar os dados de um produto.
 @rota_produto.put("/{codigo}")
 async def atualizar_produto(codigo: str, produto: AtualizacaoProduto):
-    produto = await produto_regras.atualizar_por_codigo(codigo,produto)
+    produto = await produto_regras.atualizar_por_codigo(codigo, produto)
     return produto
 
 # 3.Pesquisar um produto.
@@ -31,15 +29,11 @@ async def pesquisar_pelo_codigo(id_produto: str):
     produto = await produto_regras.validar_id_produto(id_produto)
     return  Produto(**produto)
 
-
-
 # 4.Pesquisar um produto pelo nome.
 @rota_produto.get("/nome/{nome_produto}")
 async def pesquisar_pelo_nome(nome_produto: str):
     produto = await produto_persistencia.pesquisar_pelo_nome(nome_produto)
     return  Produto(**produto)
-
-
 
 # 5.Remover um produto. (Opcional)
 @rota_produto.delete("/{id_produto}")
