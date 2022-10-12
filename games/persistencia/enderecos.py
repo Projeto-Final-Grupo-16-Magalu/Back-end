@@ -18,7 +18,18 @@ async def pesquisar_endereco_por_email(email: EmailStr) -> Optional[dict]:
     except Exception as error:
         print(f'pesquisa_endereco_por_email.erro: {error}')
         
-
+async def pesquisar_enderecos_do_cliente(email: EmailStr) -> Optional[dict]:
+    try:
+        filtro = {
+            EnderecosCliente.cep: cep,
+            EnderecosCliente.numero: numero
+        }
+        colecao = obter_colecao(COLECAO_ENDERECOS_CLIENTE)
+        enderecos = await colecao.find_one(filtro)
+        return enderecos
+    except Exception as error:
+        print(f'pesquisa_endereco_por_email.erro: {error}')
+        
 async def pesquisar_enderecos(endereco) -> Optional[dict]:
     try:
         filtro = {
@@ -35,6 +46,19 @@ async def inserir_novo_endereco(novo_endereco: dict) -> dict:
     try:
         colecao = obter_colecao(COLECAO_ENDERECOS)
         await colecao.insert_one(novo_endereco)
+        return novo_endereco
+    except Exception as error:
+        print(f'inserir_novo_endereco.erro: {e}')
+        
+async def cadastrar_novo_endereco(email: EmailStr, novo_endereco: dict) -> dict:
+    try:
+        try:
+        filtro = {
+            EnderecosCliente.email: email
+        }
+        colecao = obter_colecao(COLECAO_ENDERECOS_CLIENTE)
+        enderecos = await colecao.find_one(filtro)
+        novo_endereco = await colecao.insert_one(COLECAO_ENDERECOS_CLIENTE)
         return novo_endereco
     except Exception as error:
         print(f'inserir_novo_endereco.erro: {e}')

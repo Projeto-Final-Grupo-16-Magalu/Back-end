@@ -23,4 +23,18 @@ class ErroEmailJaCadastrado(BaseModel):
                 "mensagem": "Já existe um cliente cadastrado com esse email"
             }
         }
+
+#Modelo para erro: cliente não encontrado
+class ErroClienteNaoEncontrado(BaseModel):
+    """Não foi encontrado nenhum cadasto em nosso Banco de Dados"""
+    mensagem: str = Field(
+        ...,
+        description="Mensagem com a causa do erro"
+    )
+    class Config:
+        schema_extra={
+            "example": {
+                "mensagem": "Não foi encontrado nenhum cadasto em nosso Banco de Dados"
+            }
+        }
     

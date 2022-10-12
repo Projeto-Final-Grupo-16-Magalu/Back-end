@@ -33,3 +33,32 @@ class ErroEnderecoJaCadastrado(BaseModel):
                 "mensagem": "Esse endereço já foi cadastrado para esse usuário"
             }
         }
+
+#Modelo para erro: endereço não encontrado
+class ErroEnderecoNaoEncontrado(BaseModel):
+    """Esse endereço não está cadastrado"""
+    mensagem: str = Field(
+        ...,
+        description="Mensagem com a causa do erro"
+    )
+    class Config:
+        schema_extra={
+            "example": {
+                "mensagem": "Esse endereço não está cadastrado"
+            }
+        }
+        
+
+#Modelo para erro: endereço já removido
+class ErroEnderecoJaRemovido(BaseModel):
+    """Esse endereço já foi removido do sistema"""
+    mensagem: str = Field(
+        ...,
+        description="Mensagem com a causa do erro"
+    )
+    class Config:
+        schema_extra={
+            "example": {
+                "mensagem": "Esse endereço já foi removido do sistema"
+            }
+        }

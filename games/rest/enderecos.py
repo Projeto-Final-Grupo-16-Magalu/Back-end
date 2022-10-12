@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, status
 
-from games.modelos.endereco import Endereco, ErroEnderecoJaCadastrado
+from games.modelos.endereco import ErroEnderecoNaoEncontrado, ErroEnderecoJaCadastrado, Erro EnderecoJaRemovido
 import games.regras.enderecos as enderecos_regras
 from games.modelos.endereco import Endereco, EnderecosCliente
 from games.rest.documentacao import DESCRICAO_CADASTRAR_ENDERECO, DESCRICAO_PESQUISAR_ENDERECO, DESCRICAO_DELETAR_ENDERECO   
@@ -9,7 +9,7 @@ from games.rest.documentacao import DESCRICAO_CADASTRAR_ENDERECO, DESCRICAO_PESQ
 # Minha rota API de endereços
 rota_enderecos = APIRouter(
     # Prefixo para o caminho da rota
-    prefix="/api/endereços",
+    prefix="/api/enderecos",
     tags = ["Endereços"]
 )
 
@@ -37,7 +37,7 @@ async def inserir_novo_endereco(email: EmailStr, endereco: Endereco):
     summary= "Pesquisa de endereço por email",
     description= DESCRICAO_PESQUISAR_ENDERECO,
     status_code=status.HTTP_200_OK,
-    response_model = EnderecosCliente
+    response_model = EnderecosCliente,
     responses = {
         status.HTTP_404_GONE:{
             "description": "Endereço não encontrado",
@@ -55,7 +55,7 @@ async def pesquisar_endereco_por_email(email: Emailstr):
     summary= "Deletar endereço do cliente pelo id do endereço",
     description= DESCRICAO_DELETAR_ENDERECO,
     status_code=status.HTTP_200_OK,
-    response_model = EnderecosCliente
+    response_model = EnderecosCliente,
     responses = {
         status.HTTP_410_GONE:{
             "description": "Esse endereço já foi removido para esse usuário",
