@@ -9,7 +9,7 @@ from games.logs import logger
 colecao = obter_colecao(COLECAO_PRODUTOS)
 
 # 1.Cadastrar um produto
-async def inserir_novo_produto(produto: dict) -> dict: 
+async def inserir_novo_produto(produto: dict) -> dict:
     await colecao.insert_one(produto)
     logger.info(f'produto={produto}')
     return produto
@@ -19,20 +19,20 @@ async def inserir_novo_produto(produto: dict) -> dict:
 async def atualizar_por_codigo(id : str, produto: AtualizacaoProduto) ->bool:
     logger.info(f'atualizacao={produto}')
     produto = {k: v for k, v in produto.dict().items() if v is not None}
-    
+
     filtro = {
         '_id': ObjectId(id)
     }
-    
+
     atualizacao = {
         "$set": produto
     }
     operacao_atualizacao = await colecao.update_one(filtro, atualizacao)
-    
+
     if operacao_atualizacao.modified_count > 0:
-        produto_atualizado = await pesquisar_pelo_id(id) 
+        produto_atualizado = await pesquisar_pelo_id(id)
         logger.info(f'produto_atualizado={produto_atualizado}')
-        return produto_atualizado  
+        return produto_atualizado
 
     return None
 
@@ -41,11 +41,11 @@ async def atualiza_produto(codigo: int, quantidade_comprada: int):
     filtro = {
          'codigo': codigo
     }
-    produto = pesquisar_pelo_codigo(codigo)
+    produto = await pesquisar_pelo_codigo(codigo)
     novo_valor = produto['quantidade_em_estoque'] - quantidade_comprada
     atualizacao = {'$set': {'quantidade_em_estoque': novo_valor}}
     operacao_atualizacao = await colecao.update_one(filtro, atualizacao)
- 
+
     if operacao_atualizacao.modified_count > 0:
         produto_atualizado = await pesquisar_pelo_codigo(codigo)
         logger.info(f'produto_atualizado={produto_atualizado}')

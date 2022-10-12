@@ -26,6 +26,14 @@ async def adicionar_item_carrinho(email_cliente: str, item_carrinho: ItemCarrinh
     return carrinho_atualizado
 
 
+@rota_carrinho.put(
+    "/remover_item"
+    )
+async def remover_item_carrinho(email_cliente: str, codigo_produto: int):
+    carrinho_atualizado = await carrinho_regras.remove_item_carrinho(email_cliente, codigo_produto)
+    return carrinho_atualizado
+
+
 # Fecha um carrinho aberto
 @rota_carrinho.put("/fechar/{email_cliente}")
 async def fechar_carrinho(email_cliente: EmailStr):
