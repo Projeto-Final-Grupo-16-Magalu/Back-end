@@ -1,7 +1,7 @@
-from typing import List
+from pydantic.networks import EmailStr 
 from fastapi import APIRouter, status
 
-from games.modelos.endereco import ErroEnderecoNaoEncontrado, ErroEnderecoJaCadastrado, Erro EnderecoJaRemovido
+from games.modelos.endereco import ErroEnderecoNaoEncontrado, ErroEnderecoJaCadastrado, ErroEnderecoJaRemovido
 import games.regras.enderecos as enderecos_regras
 from games.modelos.endereco import Endereco, EnderecosCliente
 from games.rest.documentacao import DESCRICAO_CADASTRAR_ENDERECO, DESCRICAO_PESQUISAR_ENDERECO, DESCRICAO_DELETAR_ENDERECO   
@@ -15,7 +15,7 @@ rota_enderecos = APIRouter(
 
 # Cadastrar Endereço
 @rota_enderecos.post(
-    "/{email}",
+    "{email}",
     summary= "Cadastro de novo endereço",
     description= DESCRICAO_CADASTRAR_ENDERECO,
     status_code=status.HTTP_201_CREATED,
@@ -39,19 +39,18 @@ async def inserir_novo_endereco(email: EmailStr, endereco: Endereco):
     status_code=status.HTTP_200_OK,
     response_model = EnderecosCliente,
     responses = {
-        status.HTTP_404_GONE:{
+        status.HTTP_404_NOT_FOUND:{
             "description": "Endereço não encontrado",
             "model": ErroEnderecoNaoEncontrado}    
         }
-    }
 )
-async def pesquisar_endereco_por_email(email: Emailstr):
+async def pesquisar_endereco_por_email(email: EmailStr):
     enderecos = await enderecos_regras.pesquisar_endereco_por_email(email)
     return enderecos
 
 #Deleta endereço pelo id.
 @rota_enderecos.delete(
-    "/{email}{id_endereco}",
+    "/{email}&{id_endereco}",
     summary= "Deletar endereço do cliente pelo id do endereço",
     description= DESCRICAO_DELETAR_ENDERECO,
     status_code=status.HTTP_200_OK,
@@ -59,12 +58,13 @@ async def pesquisar_endereco_por_email(email: Emailstr):
     responses = {
         status.HTTP_410_GONE:{
             "description": "Esse endereço já foi removido para esse usuário",
-            "model": ErroEnderecoJaRemovido}
-        status.HTTP_404_GONE:{
+            "model": ErroEnderecoJaRemovido},
+        status.HTTP_404_NOT_FOUND:{
             "description": "Endereço não encontrado",
             "model": ErroEnderecoNaoEncontrado
+        }
     }
 )
-async def remover_endereco_do_cliente_por_id(email: Emailstr, id_endereco: _id):
+async def remover_endereco_do_cliente_por_id(email: EmailStr, id_endereco: str):
     enderecos = await enderecos_regras.remover_endereco_do_cliente_por_id(email, id_endereco)
     return enderecos

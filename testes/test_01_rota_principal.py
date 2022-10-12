@@ -4,7 +4,7 @@ Testes com API principal.
 
 from fastapi import status
 from fastapi.testclient import TestClient
-from aplicacao import app
+from games.aplicacao import app
 
 # Cliente da API do FastAPI.
 cliente_app = TestClient(app)
