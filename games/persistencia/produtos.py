@@ -20,6 +20,7 @@ async def inserir_novo_produto(produto: dict) -> dict:
 
 # Atualizar os dados de um produto.
 async def atualizar_por_codigo(id : str, produto: AtualizacaoProduto) ->bool:
+
     try:    
         logger.info(f'atualizacao={produto}')
         produto = {k: v for k, v in produto.dict().items() if v is not None}
@@ -37,6 +38,7 @@ async def atualizar_por_codigo(id : str, produto: AtualizacaoProduto) ->bool:
             produto_atualizado = await pesquisar_pelo_id(id, {'_id': 0}) 
             logger.info(produto_atualizado)
             return produto_atualizado  
+
 
         return None
     except Exception as e:
@@ -68,6 +70,7 @@ async def atualiza_produto(codigo: int, quantidade_comprada: int):
 
 # Pesquisar um produto.
 async def pesquisar_pelo_id(id):
+
     try:    
         filtro = {
             '_id' : ObjectId(id)
@@ -92,6 +95,7 @@ async def pesquisar_pelo_codigo(codigo: int) -> Optional[dict]:
         
 # Pesquisar um produto pelo nome.
 async def pesquisar_pelo_nome(nome: str) -> Optional[dict]:
+
     try:
         filtro = {
             'nome': nome
@@ -101,6 +105,7 @@ async def pesquisar_pelo_nome(nome: str) -> Optional[dict]:
         return produto
     except Exception as e:
         logger.exception(e)
+
 
 # 5.Remover um produto.
 # TODO: é necessário validar se existe o item em carrinhos abertos, remover e atualizar os dados do carrinho.

@@ -67,5 +67,5 @@ async def pesquisar_cliente_pelo_email(email: EmailStr):
         }
 )
 async def pesquisar_todos_os_clientes() -> List[Cliente]:  
-    clientes = await clientes_regras.pesquisar_por_todos()
+    clientes = await clientes_regras.pesquisar_clientes()
     return clientes

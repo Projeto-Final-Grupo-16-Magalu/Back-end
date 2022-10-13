@@ -1,9 +1,9 @@
-from typing import List, Optional
+from fastapi import HTTPException
 from pydantic import EmailStr
+from typing import List, Optional
 
 import games.persistencia.clientes as clientes_persistencia
 from games.modelos.cliente import Cliente
-from games.regras.excecoes import NaoEncontradoExcecao, OutroRegistroExcecao
 from games.logs import logger
 
 

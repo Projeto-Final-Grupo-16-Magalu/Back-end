@@ -84,7 +84,7 @@ async def pesquisar_pelo_codigo(id_produto: str):
     }
     )
 async def pesquisar_pelo_nome(nome_produto: str):
-    produto = await produto_persistencia.pesquisar_pelo_nome(nome_produto)
+    produto = await produto_regras.pesquisar_pelo_nome(nome_produto)
     return  Produto(**produto)
 
 # 5.Remover um produto. (Opcional)
@@ -106,6 +106,3 @@ async def pesquisar_pelo_nome(nome_produto: str):
 async def delete_produto(id_produto: str):
     removeu =  await produto_regras.delete_produto(id_produto)
     return removeu
-
-
-   

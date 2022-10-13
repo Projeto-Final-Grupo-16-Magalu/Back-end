@@ -1,7 +1,6 @@
 from typing import List, Optional
 from pydantic.networks import EmailStr
 
-from games.modelos.cliente import Cliente
 from games.servidor.database import obter_colecao
 from games.configuracoes import COLECAO_CLIENTES
 from games.logs import logger
@@ -20,6 +19,7 @@ async def pesquisar_pelo_email(email: EmailStr) -> Optional[dict]:
         logger.exception(e)
         
 async def pesquisar_pelo_id(id_cliente) -> Optional[dict]:
+
     try:
         filtro = {
             "_id": id_cliente
@@ -42,6 +42,7 @@ async def pesquisar_todos() -> List[dict]:
         return lista_todos
     except Exception as e:
         logger.exception(e)
+
 
 async def pesquisar_pelo_nome(nome: str) -> Optional[dict]:
     try:    
