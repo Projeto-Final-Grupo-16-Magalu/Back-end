@@ -2,7 +2,7 @@ from pydantic import BaseModel, Field
 from pydantic.networks import EmailStr
 from typing import Optional
 
-
+#Modelo para Cleinte
 class Cliente(BaseModel):
     nome: str = Field(max_length=50)
     email: EmailStr 

@@ -39,29 +39,28 @@ Funcionalidade 3: Carrinho de compras:
 
 Nesse projeto foram usadas as seguintes tecnologias:
 
-- Linguagem de programação: Python 3.10 
-- Bibliotecas: 
+### Linguagem de programação: Python 3.10 
+### Bibliotecas: 
 - 
-            -pydantic
-            
-            -typing
-            
-- Frameworks:
+- [fastapi](https://fastapi.tiangolo.com/),
+- [uvicorn](https://www.uvicorn.org/),
+- [motor](https://motor.readthedocs.io/en/stable/).
+- [pymongo](https://pypi.org/project/pymongo/)
+- [pydantic](https://pypi.org/project/pydantic/)
+- [python-dotenv](https://pypi.org/project/python-dotenv/) 
+- [PyJWT](https://pypi.org/project/PyJWT/)
+- [typing](https://pypi.org/project/typing/)   
+- [decimal](https://github.com/python/cpython/blob/3.10/Lib/decimal.py)
+- [datetime](https://pypi.org/project/DateTime/)
+- [bson](https://github.com/py-bson/bson)
 
-            -requests 
-            
-            -uvicorn 
-            
-            -fastAPI  
-            
-- Protocolos HTTP
+### Protocolos HTTP
+### Aplicações usadas:
 - Visual Studio Code
 - Testes: REST Client for Visual Studio Code
-- Instale todo o necessário em requerimentos.txt:
-
-     ```
-     $ pip install -r requerimentos.txt
-     ```
+### Materiais
+- [pip](https://pip.pypa.io/en/stable/getting-started/).
+- [venv](https://docs.python.org/pt-br/3/library/venv.html).
 
 ## :file_folder:*Acesso ao projeto*
 
@@ -73,22 +72,63 @@ Você pode [acessar o código fonte do projeto]([https://github.com/dsamandarc/p
 
 - Baixar os arquivos do projeto com:
 ```
-git clone https://github.com/dsamandarc/projetocarrinho.git
+git clone https://github.com/Projeto-Final-Grupo-16-Magalu/Back-end.git
 ```
 - Entrar na pasta do projeto:
 ```
-cd projetocarrinho
+cd Back-end
 ```
-## :clipboard:*Etapas*
+## :clipboard:*Etapas para *
+Temos uma estrutura separada para cada requisito funcional da aplicação: -Clientes, Endereços, Produtos e Carrinho
+### [Etapa 0]: Criação do ambiente virtual Python e carregar pacotes que serão usados:
+   
+Para começar a rodar a aplicação,criamos um ambiente virtual do Python ([venv](https://docs.python.org/pt-br/3/library/venv.html)).
+Para isso é preciso:
+#### Entrar na pasta da aplicação e criar o ambiente:
+Entrar na pasta ´Back-end´:
 
-- [Etapa 0](https://github.com/dsamandarc/carrinhogrupo18/tree/Etapa-0): Criação do ambiente.
-- [Etapa 1](https://github.com/dsamandarc/carrinhogrupo18/tree/Etapa-1): Esboço das APIs.
-- [Etapa 2](): Organizando a aplicação.
-- [Etapa 3](): Conectando o banco de dados.
-- [Etapa 4](): Cadastro de um novo produto.
-- [Etapa 5](): Removendo um produto.
-- [Etapa 6](): Atualização do produto.
-- [Etapa 7](): Testes _manuais_.
+```
+cd Back-end
+```
+
+Criando o ambiente virtual no Linux, usando o Python 3.9:
+
+```
+python3.9 -m venv venv
+```
+
+Criando o ambiente virtual no Windows, usando o Python 3.9, no Prompt de Comando:
+
+```
+python -m venv venv
+```
+#### Ativar o ambiente virtual venv:
+Para _ativar_ o ambiente virtual no Linux:
+
+```
+source venv/bin/activate
+```
+
+E no Windows:
+
+```
+venv\Scripts\activate
+```
+#### Istalar os pacotes no ambiente virtual:
+Criamos o arquivo requerimentos.txt, que contém todos os pacotes do Pyhton necessários para a aplicação, nas versões usadas para desenvolvê-la.
+Instalando os pacotes necessários para projeto:
+
+```
+pip install -r requerimentos.txt
+```
+
+### [Etapa 1]: Esboço das APIs.
+### [Etapa 2]: Organizando a aplicação.
+### [Etapa 3]: Conectando o banco de dados.
+### [Etapa 4]: Cadastro de um novo produto.
+### [Etapa 5]: Removendo um produto.
+### [Etapa 6]: Atualização do produto.
+### [Etapa 7](): Testes _manuais_.
 
 ## :woman:*Desenvolvedoras*
 

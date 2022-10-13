@@ -1,10 +1,11 @@
-from typing import List
 from fastapi import APIRouter, status
+from pydantic import EmailStr
+from typing import List
 
 
-from games.modelos.endereco import Endereco
 import games.regras.clientes as clientes_regras
-from games.modelos.cliente import Cliente, ErroEmailJaCadastrado
+from games.modelos.cliente import Cliente, ErroEmailJaCadastrado, ErroClienteNaoEncontrado
+from games.modelos.endereco import Endereco
 from games.rest.documentacao import DESCRICAO_CADASTRAR_CLIENTE, DESCRICAO_PESQUISAR_CLIENTE_POR_EMAIL, DESCRICAO_PESQUISAR_CLIENTES                          
 
 # Minha rota API de clientes
@@ -47,7 +48,7 @@ async def criar_novo_cliente(cliente: Cliente):
         }
     
 )
-async def pesquisar_cliente_pelo_email(email: str):
+async def pesquisar_cliente_pelo_email(email: EmailStr):
     cliente = await clientes_regras.pesquisar_por_email(email, True)
     return cliente
 

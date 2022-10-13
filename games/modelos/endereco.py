@@ -5,6 +5,7 @@ from typing import List
 
 from games.modelos.cliente import Cliente
 
+#Modelo para Endereço
 class Endereco(BaseModel):
     nome: str = Field(max_length=10)
     logradouro: str= Field(max_length=100)
@@ -15,7 +16,7 @@ class Endereco(BaseModel):
     numero: str= Field(max_length=10)
     entrega: bool = Field(default=True)
 
-
+#Modelo para Endereços-Clientes
 class EnderecosCliente(BaseModel):
     cliente: EmailStr
     enderecos: List[Endereco] = []

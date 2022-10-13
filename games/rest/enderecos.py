@@ -1,7 +1,7 @@
 from typing import List
 from fastapi import APIRouter, status
 
-from games.modelos.endereco import ErroEnderecoNaoEncontrado, ErroEnderecoJaCadastrado, Erro EnderecoJaRemovido
+from games.modelos.endereco import ErroEnderecoNaoEncontrado, ErroEnderecoJaCadastrado, ErroEnderecoJaRemovido
 import games.regras.enderecos as enderecos_regras
 from games.modelos.endereco import Endereco, EnderecosCliente
 from games.rest.documentacao import DESCRICAO_CADASTRAR_ENDERECO, DESCRICAO_PESQUISAR_ENDERECO, DESCRICAO_DELETAR_ENDERECO   
@@ -39,7 +39,7 @@ async def inserir_novo_endereco(email: EmailStr, endereco: Endereco):
     status_code=status.HTTP_200_OK,
     response_model = EnderecosCliente,
     responses = {
-        status.HTTP_404_GONE:{
+        status.HTTP_404_NOT_FOUND:{
             "description": "Endereço não encontrado",
             "model": ErroEnderecoNaoEncontrado}    
         }
@@ -59,10 +59,10 @@ async def pesquisar_endereco_por_email(email: Emailstr):
     responses = {
         status.HTTP_410_GONE:{
             "description": "Esse endereço já foi removido para esse usuário",
-            "model": ErroEnderecoJaRemovido}
-        status.HTTP_404_GONE:{
+            "model": ErroEnderecoJaRemovido},
+        status.HTTP_404_NOT_FOUND:{
             "description": "Endereço não encontrado",
-            "model": ErroEnderecoNaoEncontrado
+            "model": ErroEnderecoNaoEncontrado}
     }
 )
 async def remover_endereco_do_cliente_por_id(email: Emailstr, id_endereco: _id):
