@@ -72,4 +72,4 @@ async def delete_produto(id: str):
     if produto_deletado.deleted_count:
         return{'status': 'Produto deletado com sucesso!'}
     else:
-        return{ 'status': 'Produto inexistente'}
+        return{'status': 'Produto inexistente'}
