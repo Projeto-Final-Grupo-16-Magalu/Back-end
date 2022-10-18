@@ -11,11 +11,14 @@ import games.persistencia.enderecos as persistencia_enderecos
 colecao = obter_colecao(COLECAO_CLIENTES)
 
 
-async def pesquisar_pelo_email(email: EmailStr) -> Optional[dict]:
+async def pesquisar_pelo_email(email: EmailStr, return_id: bool = True) -> Optional[dict]:
     filtro = {
         'email': email
     }
-    cliente = await colecao.find_one(filtro, {'_id': 0} )
+    if return_id:
+        cliente = await colecao.find_one(filtro)
+    else:
+        cliente = await colecao.find_one(filtro, {'_id': 0}) 
     logger.info(cliente)
     return cliente
 

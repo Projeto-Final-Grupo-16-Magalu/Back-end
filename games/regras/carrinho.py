@@ -123,7 +123,7 @@ async def fechar_carrinho(email_cliente: EmailStr):
 
 # Pesquisa carrinho abertos de um cliente
 async def pesquisar_carrinho_aberto_cliente(email_cliente: EmailStr):
-    carrinho = await carrinho_persistencia.pesquisa_carrinho_aberto_cliente(email_cliente)
+    carrinho = await carrinho_persistencia.pesquisa_carrinho_aberto_cliente(email_cliente, False)
     if carrinho == None:
         logger.warning(f'Não existe carrinho aberto para o cliente={email_cliente}')
         # Not found
