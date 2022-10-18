@@ -53,6 +53,7 @@ Nesse projeto foram usadas as seguintes tecnologias:
 - [decimal](https://github.com/python/cpython/blob/3.10/Lib/decimal.py)
 - [datetime](https://pypi.org/project/DateTime/)
 - [bson](https://github.com/py-bson/bson)
+- [logging](https://pypi.org/project/logging/)
 
 ### Protocolos HTTP
 ### Aplicações usadas:
@@ -61,6 +62,10 @@ Nesse projeto foram usadas as seguintes tecnologias:
 ### Materiais
 - [pip](https://pip.pypa.io/en/stable/getting-started/).
 - [venv](https://docs.python.org/pt-br/3/library/venv.html).
+- API REST, documento da :
+  - [Red Hat](https://www.redhat.com/pt-br/topics/api/what-is-a-rest-api).
+  - [AWS](https://aws.amazon.com/pt/what-is/restful-api/).
+- [FastAPI](https://fastapi.tiangolo.com/).
 
 ## :file_folder:*Acesso ao projeto*
 
@@ -80,7 +85,7 @@ cd Back-end
 ```
 ## :clipboard:*Etapas para *
 Temos uma estrutura separada para cada requisito funcional da aplicação: -Clientes, Endereços, Produtos e Carrinho
-### [Etapa 0]: Criação do ambiente virtual Python e carregar pacotes que serão usados:
+### [Etapa A]: Criação do ambiente virtual Python e carregar pacotes que serão usados:
    
 Para começar a rodar a aplicação,criamos um ambiente virtual do Python ([venv](https://docs.python.org/pt-br/3/library/venv.html)).
 Para isso é preciso:
@@ -122,13 +127,41 @@ Instalando os pacotes necessários para projeto:
 pip install -r requerimentos.txt
 ```
 
-### [Etapa 1]: Esboço das APIs.
-### [Etapa 2]: Organizando a aplicação.
-### [Etapa 3]: Conectando o banco de dados.
-### [Etapa 4]: Cadastro de um novo produto.
-### [Etapa 5]: Removendo um produto.
-### [Etapa 6]: Atualização do produto.
-### [Etapa 7](): Testes _manuais_.
+### [Etapa B]: Testando a API
+### Executando o servidor no ambiente virtual
+
+Para executar o servidor FastAPI:
+
+```sh
+uvicorn  games.aplicacao:app --reload
+```
+
+### Acessando a aplicação
+
+Teste a aplicação ao acessar: 
+
+> http://localhost:8000
+
+Ela irá lhe dizer um "`Oi`".
+### [Etapa C]: Organizando a aplicação.
+
+Organizamos nossa aplicação por estruturá-la em vários módulos e pacotes do Python.
+Para fins didáticos, iremos ter as seguintes pastas:
+
+- [games]: Pasta principal da aplicação. 
+  - [persistencia]: Módulo para persistência (repositório) com o banco de dados.
+  - [regras]: Módulos para as regras (casos de uso) da aplicação.
+  - [rest]: Módulos para de _controle_ e/ou _comunicação_ com o FastAPI.
+
+Dentro desses diretórios iremos ter estes arquivos:
+- [modelos]: Modelos para as classes
+- [aplicacao.py]: Arquivo principal do projeto. Vamos dizer que a aplicação FastAPI _inicia_ aqui. Configurações com o FastAPI.
+- [configuracoes.py]: Configurações gerais da aplicação.
+- [rest]: Rotas para cada caminho de URL "`/`".
+- [regras](./musicas/regras/musicas_regras.py): Regras para o funcionamento da API
+- [persistencia]: Responsável pela persistência da API
+
+Logo, navegue pelos arquivos e acesse as funcionalidades.
 
 ## :woman:*Desenvolvedoras*
 
@@ -139,7 +172,7 @@ pip install -r requerimentos.txt
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-amandaoliveirajones-informational?style=flat-square&logo=linkedin&logoColor=white)](linkedin.com/in/amanda-oliveira-jones/)
 <br>
 <br>
-[<img src="https://media-exp1.licdn.com/dms/image/D4D35AQGFY_w5bsKJdQ/profile-framedphoto-shrink_200_200/0/1654617757807?e=1665424800&v=beta&t=5qU03h6P6iGQ_QaIWVBRMX6k5HL7Up_1s4R6r7kCF6w" width=115 > <br> <sub> Amanda Rodrigues Cruz </sub>](https://www.linkedin.com/in/amandarodriguescruz/)
+[<img src="https://media-exp1.licdn.com/dms/image/D4D35AQGFY_w5bsKJdQ/profile-framedphoto-shrink_200_200/0/1654617757807?e=1666717200&v=beta&t=SPwtveHKqUZjrx8MUqQMrcAek3uUNuYEzIsC3hgGtxI" width=115 > <br> <sub> Amanda Rodrigues Cruz </sub>](https://www.linkedin.com/in/amandarodriguescruz/)
 <br>
 [![Gmail](https://img.shields.io/badge/Email-amandinharodriguescruz@gmail.com-informational?style=flat-square&color=8B89CC&logo=protonmail&logoColor=white)](malito:amandinharodriguescruz@gmail.com)
 <br>
@@ -179,5 +212,6 @@ Carrinho de compras em Python Luizacode é [MIT licensed](./LICENSE).
 A documentação do Carrinho de compras em Python Luizacode é [Creative Commons licensed](./LICENSE-docs)
 
 ## :blue_heart:*Agradecimentos especiais*
-   
-[![LuizaLabs](https://raw.githubusercontent.com/Projeto-Final-Grupo-16-Magalu/Back-end/main/luizalabs%20logo.png?token=GHSAT0AAAAAABYJQ7UJNI43NAAG2NTIEJKUYZ3EO5A)](https://medium.com/luizalabs) que ofereceu por meio do Luiza code (programa de formação em tecnologia) - 5ª edição todo conhecimento necessário para a construção desse carrinho. À todos os nossos professores, mentores, madrinhas e a Taci nosso muito obrigada! 
+
+<img src="https://github.com/Projeto-Final-Grupo-16-Magalu/Back-end/blob/0950afd9c72dc3f630416043c46c850928e6b7a2/extras/luizalabs%20logo.png" width=115 > <br> 
+[[LuizaLabs]](https://medium.com/luizalabs) que ofereceu por meio do Luiza code (programa de formação em tecnologia) - 5ª edição todo conhecimento necessário para a construção desse carrinho. À todos os nossos professores, mentores, madrinhas e a Taci nosso muito obrigada! 

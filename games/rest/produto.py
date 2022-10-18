@@ -1,10 +1,10 @@
 from typing import List
 from unittest import result
-from fastapi import APIRouter
+from fastapi import APIRouter, status
 from games.configuracoes import COLECAO_PRODUTOS
 from games.modelos import produto
 from games.modelos.carrinho import ErroProdutoNaoEncontrado
-from games.modelos.produto import AtualizacaoProduto, Produto, ErroNomeJaCadastrado, ErroNomeJaRemovido, ErroProdutoJaCadastrado
+from games.modelos.produto import AtualizacaoProduto, Produto, ErroNomeJaCadastrado, ErroProdutoJaRemovido, ErroProdutoJaCadastrado
 import games.regras.produto as produto_regras
 import games.persistencia.produtos as produto_persistencia
 from games.rest.documentacao import DESCRICAO_CADASTRAR_PRODUTO, DESCRICAO_ATUALIZAR_DADOS_PRODUTO, DESCRICAO_PESQUISAR_PRODUTO_ID, DESCRICAO_PESQUISAR_PRODUTO_NOME, DESCRICAO_REMOVER_PRODUTO
@@ -16,7 +16,7 @@ rota_produtos = APIRouter(
 )
 
 # Cadastrar um produto
-@rota_produto.post(
+@rota_produtos.post(
     "/",
     summary= "Cadastro um novo produto",
     description= DESCRICAO_CADASTRAR_PRODUTO,
@@ -34,7 +34,7 @@ async def criar_novo_produto(produto: Produto):
     return novo_produto
 
 # Atualizar os dados de um produto.
-@rota_produto.put(
+@rota_produtos.put(
     "/{codigo}",
     summary= "Atualizar os dados de um produto",
     description= DESCRICAO_ATUALIZAR_DADOS_PRODUTO,
@@ -52,7 +52,7 @@ async def atualizar_produto(codigo: str, produto: AtualizacaoProduto):
     return produto
 
 # Pesquisar um produto.
-@rota_produto.get(
+@rota_produtos.get(
     "/{id}",
     summary= "Pesquisar um produto pelo id",
     description= DESCRICAO_PESQUISAR_PRODUTO_ID,
@@ -70,7 +70,7 @@ async def pesquisar_pelo_codigo(id_produto: str):
     return  Produto(**produto)
 
 # 4.Pesquisar um produto pelo nome.
-@rota_produto.get(
+@rota_produtos.get(
     "/nome/{nome_produto}",
     summary= "Pesquisar um produto pelo nome",
     description= DESCRICAO_PESQUISAR_PRODUTO_NOME,
@@ -88,7 +88,7 @@ async def pesquisar_pelo_nome(nome_produto: str):
     return  Produto(**produto)
 
 # 5.Remover um produto. (Opcional)
-@rota_produto.delete(
+@rota_produtos.delete(
     "/{id_produto}",
     summary= "Remover um produto pelo id",
     description= DESCRICAO_REMOVER_PRODUTO,

@@ -65,6 +65,7 @@ Se a remoçao não for efetivada um *erro* será apresentado e a API retornará 
 ##############################################################
 #CARRINHO
 ##############################################################
+
 DESCRICAO_CRIAR_CARRINHO_ABERTO = """
 Criar um carrinho aberto. Para criar um carrinho aberto:</br>
     <li>-nome: Deve ter um cliente</br>
@@ -90,6 +91,13 @@ Se o carrinho for fechado com *sucesso* a API retornará sucesso (código HTTP 2
 e no corpo da resposta um registro com os campos do carrinho, além de um id criado pelo sistema.</br>
 Se o carrinho não conseguir ser fechado um *erro* será apresentado e a API retornará uma mensagem informando o tipo de erro."""
 
+DESCRICAO_REMOVER_CARRINHO_ABERTO = """
+Remover um carrinho aberto para um cliente. Para remover um carrinho aberto:</br>
+    <li>-Passar o email do cliente</br>
+   
+Se o carrinho for removido com *sucesso* a API retornará sucesso (código HTTP 200)</br>
+Se o carrinho não conseguir ser removido um *erro* será apresentado e a API retornará uma mensagem informando o tipo de erro."""
+
 DESCRICAO_PESQUISAR_CARRINHO_ABERTO ="""
 Pesquisar um carrinho aberto para um cliente. Para pesquisar um carrinho aberto:</br>
     <li>-Passar o email do cliente</br>
@@ -98,13 +106,13 @@ Se a pesquisa for realizada com *sucesso* a API retornará sucesso (código HTTP
 e no corpo da resposta o carrinho aberto do cliente.</br>
 Se a pesquisa não for efetivada um *erro* será apresentado e a API retornará uma mensagem informando o tipo de erro.</br>"""
 
-DESCRICAO_PESQUISAR_CARRINHOS_FECAHADOS = """
+DESCRICAO_PESQUISAR_CARRINHOS_FECHADOS = """
 Pesquisar os carrinhos fechados de um cliente. Para pesquisar os carrinhos fechados:</br>
     <li>-Passar o email do cliente</br>
    
 Se a pesquisa for realizada com *sucesso* a API retornará sucesso (código HTTP 200) e </br>
 e no corpo da resposta o carrinho aberto do cliente.</br>
-Se a pesquisa não for efetivada um *erro* será apresentado e a API retornará uma mensagem informando o tipo de erro.</br>""""""
+Se a pesquisa não for efetivada um *erro* será apresentado e a API retornará uma mensagem informando o tipo de erro.</br>"""
 
 ##############################################################
 #PRODUTOS
@@ -164,4 +172,14 @@ Deletar um produto. Para deletar um produto pelo id do produto:</br>
 
 Se a remoçao for realizada com *sucesso* a API retornará sucesso (código HTTP 200) e </br>
 e no corpo da resposta uma mensagem ("Produto removido com sucesso!).</br>
-Se a remoçao não for efetivada um *erro* será apresentado e a API retornará uma mensagem informando o tipo de erro.</br>""" 
+Se a remoçao não for efetivada um *erro* será apresentado e a API retornará uma mensagem informando o tipo de erro.</br>"""
+
+##############################################################
+#PRINCIPAL
+##############################################################
+
+DESCRICAO_PRINCIPAL = """
+Rota de verificação da aplicação web.
+Se a API estiver funcionando com *sucesso* a API retornará sucesso (código HTTP 201)</br>
+e no corpo da resposta uma mensagem de *Oi*.</br>
+Se a API não estiver funcionando um *erro* será apresentado e a API retornará uma mensagem informando o tipo de erro.""" 

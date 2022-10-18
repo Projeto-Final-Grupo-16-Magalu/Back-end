@@ -2,8 +2,8 @@ from fastapi import APIRouter, status
 from pydantic import EmailStr
 
 import games.regras.carrinho as carrinho_regras
-from games.modelos.carrinho import AbrirCarrinho, Carrinho, ItemCarrinho, ErroCarrinhoNaoCriado, ErroCarrinhoJaCriado ErroCarrinhoNaoFechado, ErroProdutoNaoDisponivel, ErroProdutoNaoEncontrado, ErroCarrinhoJaRemovido, ErroCarrinhoNaoRemovido
-from games.rest.documentacao import DESCRICAO_CRIAR_CARRINHO_ABERTO, ADICIONAR_ITEM_CARRINHO_ABERTO
+from games.modelos.carrinho import AbrirCarrinho, Carrinho, ErroCarrinhoNaoFechado, ItemCarrinho, ErroCarrinhoNaoCriado, ErroCarrinhoJaCriado, ErroCarrinhoNaoFechado, ErroProdutoNaoDisponivel, ErroProdutoNaoEncontrado, ErroCarrinhoJaRemovido, ErroCarrinhoNaoRemovido, ErroCarrinhosFechadosNaoExistem
+from games.rest.documentacao import DESCRICAO_CRIAR_CARRINHO_ABERTO, ADICIONAR_ITEM_CARRINHO_ABERTO, DESCRICAO_FECHAR_CARRINHO_ABERTO, DESCRICAO_PESQUISAR_CARRINHO_ABERTO, DESCRICAO_PESQUISAR_CARRINHOS_FECHADOS, DESCRICAO_REMOVER_CARRINHO_ABERTO
 
 # Minha rota API de carrinhos
 rota_carrinho = APIRouter(
@@ -17,7 +17,7 @@ rota_carrinho = APIRouter(
 @rota_carrinho.post(
     "/",
     summary= "Criar um carrinho de compras aberto",
-    description= DESCRICAO_CRIAR_CARRINHO_ABERTO,
+    description = DESCRICAO_CRIAR_CARRINHO_ABERTO,
     status_code=status.HTTP_201_CREATED,
     response_model=Carrinho,
     responses = {
@@ -37,9 +37,9 @@ async def criar_novo_carrinho(carrinho: AbrirCarrinho):
 
 # Atualiza quantidade de itens do carrinho
 @rota_carrinho.put(
-    "/adicionar_item"
+    "/adicionar_item",
     summary= "Adicionar item a um carrinho de compras aberto",
-    description= ADICIONAR_ITEM_CARRINHO_ABERTO,
+    description = ADICIONAR_ITEM_CARRINHO_ABERTO,
     status_code=status.HTTP_200_OK,
     responses = {
         status.HTTP_404_NOT_FOUND:{
@@ -49,6 +49,7 @@ async def criar_novo_carrinho(carrinho: AbrirCarrinho):
             "description": "Produto não está mais disponível",
             "model": ErroProdutoNaoDisponivel  
         }
+    }
 )
 async def adicionar_item_carrinho(email_cliente: str, item_carrinho: ItemCarrinho):
     carrinho_atualizado = await carrinho_regras.adicionar_item_carrinho(email_cliente, item_carrinho)
@@ -59,7 +60,7 @@ async def adicionar_item_carrinho(email_cliente: str, item_carrinho: ItemCarrinh
 @rota_carrinho.put(
     "/fechar/{email_cliente}",
     summary= "Fechar um carrinho aberto ",
-    description= DESCRICAO_FECHAR_CARRINHO_ABERTO,
+    description = DESCRICAO_FECHAR_CARRINHO_ABERTO,
     status_code=status.HTTP_200_OK,
     response_model = Carrinho,
     responses = {
@@ -111,13 +112,14 @@ async def pesquisar_carrinho(email_cliente: EmailStr):
 @rota_carrinho.get(
     "/fechados/{email_cliente}",
     summary= "Consultar carrinhos fechado",
-    description= DESCRICAO_PESQUISAR_CARRINHOS_FECAHADOS,
+    description= DESCRICAO_PESQUISAR_CARRINHOS_FECHADOS,
     status_code=status.HTTP_200_OK,
     response_model = Carrinho,
     responses = {
         status.HTTP_404_NOT_FOUND:{
             "description": "Não foram encontrados carrinhos fecahdos para esse cliente",
-            "model": ErroCarrinhosFecahdosNaoExistem}  
+            "model": ErroCarrinhosFechadosNaoExistem
+            }  
        }
 ) 
 async def pesquisar_carrinhos_fechados(email_cliente: EmailStr):

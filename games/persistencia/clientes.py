@@ -64,4 +64,5 @@ async def inserir_um_novo_cliente(novo_cliente: dict) -> dict:
             cliente = await pesquisar_pelo_id(resultado_insercao.inserted_id)
             logger.info(cliente)
         return cliente
-    return None
+    except Exception as e:
+        logger.exception(e)

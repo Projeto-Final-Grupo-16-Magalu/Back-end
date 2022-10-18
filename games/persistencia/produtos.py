@@ -10,7 +10,7 @@ colecao = obter_colecao(COLECAO_PRODUTOS)
 
 # Cadastrar um produto
 async def inserir_novo_produto(produto: dict) -> dict: 
-   try:
+    try:
         produto = await colecao.insert_one(produto)
         logger.info(produto)
         return produto

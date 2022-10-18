@@ -58,8 +58,8 @@ class Config:
             }
         }
 
-# Modelo para erro: Já exisste um produto com esse nome 
-class ErroNomeJaRemovido(BaseModel):
+# Modelo para erro: Produto já foi removido 
+class ErroProdutoJaRemovido(BaseModel):
     """Esse produto já foi removido"""
     mensagem: str = Field(
         ...,
