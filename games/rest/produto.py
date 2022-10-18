@@ -1,9 +1,9 @@
+from typing import List
 from fastapi import APIRouter
-
 from games.modelos.produto import AtualizacaoProduto, Produto
 
 import games.regras.produto as produto_regras
-
+import games.persistencia.produtos as produto_persistencia
 
 rota_produto = APIRouter(
     prefix='/api/produtos',
@@ -51,3 +51,9 @@ async def pesquisar_pelo_nome(nome_produto: str):
 async def delete_produto(id: str):
     removeu =  await produto_regras.delete_produto(id)
     return removeu
+
+@rota_produto.get('/todos/produtos')
+#teste produto
+async def pesquisar_todos_os_produto() -> List[Produto]:
+    produtos = await produto_persistencia.pesquisar_produtos()
+    return produtos

@@ -1,5 +1,5 @@
 from bson import ObjectId
-from typing import Optional
+from typing import Optional, List
 
 from games.configuracoes import COLECAO_PRODUTOS
 from games.logs import logger
@@ -86,3 +86,16 @@ async def delete_produto(id):
     }
     remover = await colecao.delete_one(filtro)
     return remover
+
+
+#teste carol
+
+async def pesquisar_produtos() -> List[dict]:
+    filtro = {}
+    cursor_pesquisa = colecao.find(filtro,  {'_id': 0})
+    lista_todos = [
+        produtos
+        async for produtos in cursor_pesquisa
+    ]
+    logger.info(lista_todos)
+    return lista_todos
