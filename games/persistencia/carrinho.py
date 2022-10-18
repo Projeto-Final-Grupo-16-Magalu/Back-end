@@ -2,6 +2,7 @@ from games.configuracoes import COLECAO_CARRINHOS, COLECAO_PRODUTOS
 from games.logs import logger
 from games.modelos.carrinho import Carrinho
 from games.servidor.database import obter_colecao
+import games.persistencia.produtos as persistencia_produtos
 
 
 colecao = obter_colecao(COLECAO_CARRINHOS)
@@ -95,8 +96,10 @@ async def pesquisa_item_carrinho(email_cliente, codigo_produto):
     try:
         filtro = {
             'cliente': email_cliente,
+            'aberto': True,
             'produtos': { '$elemMatch': {'produto': codigo_produto}}}
         produto_existente = await colecao.find_one(filtro)
+        logger.info(produto_existente)
         return produto_existente
     except Exception as e:
         logger.exception(e)
@@ -121,6 +124,7 @@ async def cria_item(quantidade: int, codigo: int):
 
 async def cria_item_carrinho(email_cliente: str, codigo_produto: int, quantidade: int):
     try:
+        logger.info(f'email_cliente{email_cliente} : produto={codigo_produto} : quantidade={quantidade}')
         filtro = {
             'cliente': email_cliente
         }
@@ -130,7 +134,7 @@ async def cria_item_carrinho(email_cliente: str, codigo_produto: int, quantidade
             'quantidade_produtos':
                 int(carrinho['quantidade_produtos']) + quantidade,
             'valor_total':
-                float(carrinho['valor_total']) + float(novo_item['valor']*quantidade)
+                float(carrinho['valor_total']) + float(novo_item['valor'])
         },
             '$push': {
                 'produtos': novo_item
@@ -145,6 +149,9 @@ async def cria_item_carrinho(email_cliente: str, codigo_produto: int, quantidade
 
 async def atualiza_item_carrinho(email_cliente: str, codigo_produto: int, quantidade: int):
     try:
+        logger.info(f'email_cliente={email_cliente} : produto={codigo_produto} : quantidade={quantidade}')
+        produto = await persistencia_produtos.pesquisar_pelo_codigo(codigo_produto)
+        valor_produto = produto['preco']
         filtro = {
             'cliente': email_cliente,
             'aberto': True,
@@ -152,10 +159,14 @@ async def atualiza_item_carrinho(email_cliente: str, codigo_produto: int, quanti
         }
         carrinho = await colecao.find_one(filtro)
         atualizacao = {'$set': {
+            'valor_total':
+                float(carrinho['valor_total']) + float(valor_produto*quantidade),
+            'quantidade_produtos':
+                int(carrinho['quantidade_produtos']) + quantidade,
             'produtos.$.quantidade':
                 carrinho['produtos'][0]['quantidade'] + quantidade,
             'produtos.$.valor':
-                carrinho['produtos'][0]['valor'] * carrinho['produtos'][0]['quantidade']
+                carrinho['produtos'][0]['valor'] + valor_produto*quantidade
         }}
         await colecao.update_one(filtro, atualizacao, upsert=True)
 

@@ -39,7 +39,7 @@ async def verifica_quantidade_produto(item_carrinho: ItemCarrinho, produto: Prod
 
 # Adiciona item ao carrinho já existente
 async def adiciona_item_carrinho(email: str, item_carrinho: ItemCarrinho):
-    logger.info(f'cliente={email} - item={item_carrinho}')
+    logger.info(f'cliente={email} : item={item_carrinho}')
     # Busca produto pelo código
     produto = await produtos_persistencia.pesquisar_pelo_codigo(item_carrinho.produto)
     await verifica_quantidade_produto(item_carrinho, produto)
@@ -64,14 +64,18 @@ async def verifica_carrinho_aberto(email_cliente: EmailStr):
     # Se o carrinho aberto existe, retorna carrinho
     if carrinho != None:
         return carrinho
-    carrinho = await carrinho_persistencia.cria_carrinho(email_cliente)
     return carrinho
 
 
 # Verifica se já existe o item no carrinho e atualiza carrinho com o item
 async def item_no_carrinho(email_cliente, codigo_produto, quantidade):
     logger.info(f'cliente={email_cliente} - produto={codigo_produto} - quantidade={quantidade}')
-    await carrinho_persistencia.pesquisa_carrinho_aberto_cliente(email_cliente)
+    carrinho = await carrinho_persistencia.pesquisa_carrinho_aberto_cliente(email_cliente, False)
+    if carrinho == None:
+        logger.warning(f'Não existe carrinho aberto para o cliente={email_cliente}')
+        # Not found
+        raise HTTPException(status_code=404, detail=f'Não existe carrinho aberto para o cliente')    
+    logger.info(f'carrinho={carrinho}')
     # Verifica se já existe o produto no carrinho
     produto_existente = await carrinho_persistencia.pesquisa_item_carrinho(email_cliente, codigo_produto)
     # Se não há item no carrinho:
