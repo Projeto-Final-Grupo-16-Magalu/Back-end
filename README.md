@@ -63,12 +63,9 @@ Nesse projeto foram usadas as seguintes tecnologias:
 - [pip](https://pip.pypa.io/en/stable/getting-started/).
 - [venv](https://docs.python.org/pt-br/3/library/venv.html).
 - API REST, documento da :
-   - [Red Hat](https://www.redhat.com/pt-br/topics/api/what-is-a-rest-api).
-   - [AWS](https://aws.amazon.com/pt/what-is/restful-api/).
+  - [Red Hat](https://www.redhat.com/pt-br/topics/api/what-is-a-rest-api).
+  - [AWS](https://aws.amazon.com/pt/what-is/restful-api/).
 - [FastAPI](https://fastapi.tiangolo.com/).
-- [MongoDB](https://www.mongodb.com/).
-- [Motor](https://motor.readthedocs.io/en/stable/).
-- [Async IO no Python](https://realpython.com/async-io-python/).
 
 ## :file_folder:*Acesso ao projeto*
 
@@ -175,7 +172,7 @@ Logo, navegue pelos arquivos e acesse as funcionalidades.
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-amandaoliveirajones-informational?style=flat-square&logo=linkedin&logoColor=white)](linkedin.com/in/amanda-oliveira-jones/)
 <br>
 <br>
-[<img src="https://media-exp1.licdn.com/dms/image/D4D35AQGFY_w5bsKJdQ/profile-framedphoto-shrink_200_200/0/1654617757807?e=1665424800&v=beta&t=5qU03h6P6iGQ_QaIWVBRMX6k5HL7Up_1s4R6r7kCF6w" width=115 > <br> <sub> Amanda Rodrigues Cruz </sub>](https://www.linkedin.com/in/amandarodriguescruz/)
+[<img src="https://media-exp1.licdn.com/dms/image/D4D35AQGFY_w5bsKJdQ/profile-framedphoto-shrink_200_200/0/1654617757807?e=1666717200&v=beta&t=SPwtveHKqUZjrx8MUqQMrcAek3uUNuYEzIsC3hgGtxI" width=115 > <br> <sub> Amanda Rodrigues Cruz </sub>](https://www.linkedin.com/in/amandarodriguescruz/)
 <br>
 [![Gmail](https://img.shields.io/badge/Email-amandinharodriguescruz@gmail.com-informational?style=flat-square&color=8B89CC&logo=protonmail&logoColor=white)](malito:amandinharodriguescruz@gmail.com)
 <br>
@@ -215,5 +212,7 @@ Carrinho de compras em Python Luizacode é [MIT licensed](./LICENSE).
 A documentação do Carrinho de compras em Python Luizacode é [Creative Commons licensed](./LICENSE-docs)
 
 ## :blue_heart:*Agradecimentos especiais*
-   
-[![LuizaLabs](https://raw.githubusercontent.com/Projeto-Final-Grupo-16-Magalu/Back-end/main/luizalabs%20logo.png?token=GHSAT0AAAAAABYJQ7UJNI43NAAG2NTIEJKUYZ3EO5A)](https://medium.com/luizalabs) que ofereceu por meio do Luiza code (programa de formação em tecnologia) - 5ª edição todo conhecimento necessário para a construção desse carrinho. À todos os nossos professores, mentores, madrinhas e a Taci nosso muito obrigada! 
+
+<img src="https://github.com/Projeto-Final-Grupo-16-Magalu/Back-end/blob/0950afd9c72dc3f630416043c46c850928e6b7a2/extras/luizalabs%20logo.png" width=115 > <br> 
+[[LuizaLabs]](https://medium.com/luizalabs) que ofereceu por meio do Luiza code (programa de formação em tecnologia) - 5ª edição todo conhecimento necessário para a construção desse carrinho. À todos os nossos professores, mentores, madrinhas e a Taci nosso muito obrigada! 
+
